@@ -1,0 +1,84 @@
+{
+  "source": "https://build.nvidia.com/skills",
+  "repository": "https://github.com/NVIDIA/skills",
+  "catalog_size": 366,
+  "policy": {
+    "automatic_install": false,
+    "reason": "Skills are instructions and integrations, not universally safe executable plugins.",
+    "required_controls": [
+      "source_review",
+      "license_review",
+      "workspace_allowlist",
+      "confirmation_for_external_actions",
+      "verifier_after_execution"
+    ]
+  },
+  "recommended_for_jarvis": [
+    {
+      "name": "aiq-research",
+      "agent": "researcher",
+      "purpose": "Deep research through a reachable NVIDIA AI-Q backend",
+      "status": "gated",
+      "requires": ["AIQ backend URL", "authentication", "source verification"]
+    },
+    {
+      "name": "rag-blueprint",
+      "agent": "researcher",
+      "purpose": "RAG deployment, configuration, troubleshooting and lifecycle operations",
+      "status": "gated",
+      "requires": ["NVIDIA RAG backend", "operator confirmation"]
+    },
+    {
+      "name": "nemo-retriever",
+      "agent": "memory",
+      "purpose": "Document retrieval and semantic context for the Second Brain",
+      "status": "gated",
+      "requires": ["retriever endpoint or local NVIDIA runtime", "index storage"]
+    },
+    {
+      "name": "rag-eval",
+      "agent": "verifier",
+      "purpose": "Evaluate retrieval quality and grounded answers",
+      "status": "gated",
+      "requires": ["test corpus", "evaluation configuration"]
+    },
+    {
+      "name": "rag-perf",
+      "agent": "verifier",
+      "purpose": "Measure RAG latency and throughput",
+      "status": "gated",
+      "requires": ["benchmark corpus", "resource limits"]
+    },
+    {
+      "name": "nemotron-customize",
+      "agent": "coder",
+      "purpose": "Customize and adapt Nemotron models",
+      "status": "manual_only",
+      "requires": ["GPU capacity", "training data", "explicit approval"]
+    },
+    {
+      "name": "skill-card-generator",
+      "agent": "coder",
+      "purpose": "Generate structured skill metadata and documentation",
+      "status": "safe_reference",
+      "requires": []
+    },
+    {
+      "name": "data-designer",
+      "agent": "coder",
+      "purpose": "Create and transform structured datasets for agent workflows",
+      "status": "gated",
+      "requires": ["workspace allowlist", "output validation"]
+    }
+  ],
+  "not_default_for_jarvis": [
+    "deepstream-dev",
+    "omniverse-cad-to-simready",
+    "omniverse-usd-performance-tuning",
+    "cudaq-guide",
+    "cuopt-developer",
+    "cuopt-install",
+    "evo2-40b-forward",
+    "physical-ai-neural-reconstruction"
+  ]
+}

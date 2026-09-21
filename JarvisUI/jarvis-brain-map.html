@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS // Systemkarte</title>
+<style>
+  :root{
+    --bg:#0B0E13;
+    --line:rgba(224,164,88,0.28);
+    --line-dim:rgba(224,164,88,0.12);
+    --node-core:#E0A458;
+    --node-glow:#F2C185;
+    --node-sub:#8FA0AC;
+    --text:#C9D4DC;
+    --text-dim:#6B7684;
+    --panel:#12161C;
+    --sans:'IBM Plex Sans','Inter',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    width:100%; height:100%;
+    overflow:hidden;
+  }
+  #stage{ position:relative; width:100vw; height:100vh; }
+  svg{width:100%; height:100%; display:block;}
+
+  .hud{
+    position:absolute; top:22px; left:26px;
+    font-family:var(--mono); font-size:12px; color:var(--text-dim);
+    letter-spacing:.04em; z-index:5; pointer-events:none;
+  }
+  .hud .title{font-size:18px; color:var(--text); font-family:var(--sans); font-weight:600; margin-top:4px;}
+
+  .node-label{ font-family:var(--sans); fill:var(--text); font-size:13px; font-weight:600; text-anchor:middle; pointer-events:none; }
+  .node-label.sub{ font-size:10px; font-weight:500; fill:var(--text-dim); }
+  .node-label.core{ font-size:15px; letter-spacing:.05em; }
+  .node-hit{ cursor:pointer; }
+
+  #tooltip{
+    position:absolute; max-width:260px; background:var(--panel);
+    border:1px solid var(--line); padding:12px 14px; font-size:13px; line-height:1.5;
+    color:var(--text); pointer-events:none; opacity:0; transition:opacity .15s ease; z-index:10;
+  }
+  #tooltip .t-title{ font-family:var(--mono); font-size:11px; color:var(--node-core); margin-bottom:5px; letter-spacing:.04em; }
+
+  .hint{ position:absolute; bottom:20px; left:26px; font-family:var(--mono); font-size:11px; color:var(--text-dim); z-index:5; }
+
+  .toolbar{ position:absolute; top:22px; right:26px; z-index:6; display:flex; gap:8px; }
+  .btn{
+    font-family:var(--mono); font-size:11px; letter-spacing:.03em;
+    background:var(--panel); border:1px solid var(--line);
+    color:var(--text); padding:8px 12px; cursor:pointer;
+  }
+  .btn:hover{ border-color:var(--node-core); color:var(--node-glow); }
+  .btn.active{ background:var(--node-core); color:#1a1206; border-color:var(--node-core); }
+
+  .add-badge{ cursor:pointer; }
+
+  .overlay-bg{
+    position:fixed; inset:0; background:rgba(0,0,0,0.55);
+    display:none; align-items:center; justify-content:center; z-index:20;
+  }
+  .overlay-bg.show{ display:flex; }
+  .modal{
+    background:var(--panel); border:1px solid var(--line);
+    width:min(420px, 90vw); padding:22px 24px; position:relative;
+  }
+  .modal h3{ font-size:15px; margin-bottom:4px; }
+  .modal p.sub{ font-size:12px; color:var(--text-dim); margin-bottom:16px; }
+  .modal label{ display:block; font-family:var(--mono); font-size:11px; color:var(--text-dim); margin-bottom:5px; margin-top:12px; }
+  .modal input, .modal textarea{
+    width:100%; background:#0B0E13; border:1px solid var(--line-dim); color:var(--text);
+    padding:9px 10px; font-family:var(--sans); font-size:13px; resize:vertical;
+  }
+  .modal textarea{ min-height:60px; }
+  .modal .row{ display:flex; gap:10px; margin-top:20px; }
+  .modal .row .btn{ flex:1; text-align:center; }
+  .modal .close-x{ position:absolute; top:14px; right:16px; cursor:pointer; color:var(--text-dim); font-family:var(--mono); }
+
+  #exportArea{
+    width:100%; height:260px; background:#0B0E13; color:var(--node-glow);
+    border:1px solid var(--line-dim); font-family:var(--mono); font-size:11px; padding:10px; margin-top:12px;
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="hud">
+    <div>JARVIS // SYSTEMKARTE</div>
+    <div class="title">Gehirn</div>
+  </div>
+  <div class="hint">Knoten anklicken für Details · DASHBOARD öffnet das Live-Overlay</div>
+
+  <div class="toolbar">
+    <div class="btn" id="editToggle">+ Bearbeiten</div>
+    <div class="btn" id="exportBtn">Konfig. exportieren</div>
+  </div>
+
+  <svg id="svg" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet"></svg>
+  <div id="tooltip"></div>
+</div>
+
+<div class="overlay-bg" id="addModalBg">
+  <div class="modal">
+    <span class="close-x" id="addModalClose">✕</span>
+    <h3 id="addModalTitle">Neuen Skill hinzufügen</h3>
+    <p class="sub" id="addModalSub">Wird unter dieser Kategorie eingehängt.</p>
+    <label>Name</label>
+    <input type="text" id="addLabel" placeholder="z.B. Rechnungs-Automation">
+    <label>Beschreibung</label>
+    <textarea id="addDesc" placeholder="Kurz, was dieser Skill tut..."></textarea>
+    <div class="row">
+      <div class="btn" id="addCancel">Abbrechen</div>
+      <div class="btn active" id="addConfirm">Hinzufügen</div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay-bg" id="exportModalBg">
+  <div class="modal" style="width:min(560px,92vw);">
+    <span class="close-x" id="exportModalClose">✕</span>
+    <h3>Aktuelle Konfiguration</h3>
+    <p class="sub">Kopiere diesen Text und ersetze damit den Inhalt von <b>config.json</b> auf Netlify, um deine Änderungen dauerhaft zu speichern. Du kannst diesen Text auch einfach mir (Claude) im Chat schicken — dann aktualisiere ich die Datei für dich.</p>
+    <textarea id="exportArea" readonly></textarea>
+    <div class="row">
+      <div class="btn active" id="copyExport">In Zwischenablage kopieren</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const OVERLAY_URL = "jarvis-overlay.html";
+const CONFIG_URL = "config.json";
+
+const FALLBACK_CONFIG = {
+  center: {label:"GEHIRN", desc:"Zentrale Analyse-Instanz (Claude)."},
+  categories: [
+    {key:"wissen", label:"WISSEN", angle:-90, desc:"News & Marktdaten.", subs:[
+      {label:"RSS-Feeds", desc:"Überwachte Quellen."}, {label:"Krypto-Daten", desc:"Marktstruktur."}]},
+    {key:"dashboard", label:"DASHBOARD", angle:-18, desc:"Live-Overlay.", link:true, subs:[
+      {label:"Netlify-Overlay", desc:"Live-Ansicht.", link:true}, {label:"Live-Status", desc:"Quellenstatus."}]},
+    {key:"hand", label:"HAND", angle:54, desc:"Automationen & Skills.", subs:[
+      {label:"Make.com", desc:"Orchestrierung."}, {label:"E-Mail-Agent", desc:"E-Mail-Automation."}]},
+    {key:"archiv", label:"ARCHIV", angle:126, desc:"Gedächtnis.", subs:[
+      {label:"Präferenzen", desc:"Interessen & Regeln."}, {label:"Logbuch", desc:"Verlauf."}]},
+    {key:"stimme", label:"STIMME", angle:198, desc:"Kommunikation.", subs:[
+      {label:"Telegram-Bot", desc:"Alerts."}, {label:"Voice-Alerts", desc:"Sprachmeldungen."}]},
+  ]
+};
+
+let CONFIG = null;
+let editMode = false;
+let pendingCategoryKey = null;
+
+const svg = document.getElementById('svg');
+const tooltip = document.getElementById('tooltip');
+const NS = "http://www.w3.org/2000/svg";
+
+function el(tag, attrs){
+  const e = document.createElementNS(NS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+function deg2rad(d){ return d * Math.PI / 180; }
+
+async function loadConfig(){
+  try{
+    const res = await fetch(CONFIG_URL, {cache:"no-store"});
+    if(!res.ok) throw new Error("no config.json");
+    CONFIG = await res.json();
+  }catch(err){
+    console.warn("config.json nicht gefunden, nutze Fallback:", err);
+    CONFIG = JSON.parse(JSON.stringify(FALLBACK_CONFIG));
+  }
+  render();
+}
+
+function render(){
+  svg.innerHTML = "";
+  const starsLayer = el('g', {});
+  svg.appendChild(starsLayer);
+  for(let i=0;i<140;i++){
+    starsLayer.appendChild(el('circle', {
+      cx: Math.random()*1000, cy: Math.random()*700,
+      r: Math.random()*1.3 + 0.2, fill:"#ffffff",
+      opacity:(Math.random()*0.5+0.05).toFixed(2)
+    }));
+  }
+
+  const linesLayer = el('g', {});
+  const nodesLayer = el('g', {});
+  svg.appendChild(linesLayer);
+  svg.appendChild(nodesLayer);
+
+  const CENTER = {x:500, y:340};
+  const CAT_RADIUS = 190;
+  const SUB_RADIUS = 320;
+  const MAX_ARC = 130;
+
+  function addLine(x1,y1,x2,y2, dim){
+    linesLayer.appendChild(el('line', {x1,y1,x2,y2,
+      stroke: dim ? "var(--line-dim)" : "var(--line)", "stroke-width": dim ? 1 : 1.3}));
+  }
+
+  function addNode(x, y, r, label, desc, opts={}){
+    const g = el('g', {});
+    g.appendChild(el('circle', {cx:x, cy:y, r:r+6, fill:opts.core ? "var(--node-glow)" : "var(--node-core)", opacity:0.15}));
+    const core = el('circle', {cx:x, cy:y, r:r,
+      fill: opts.core || opts.link ? "var(--node-glow)" : "var(--node-core)", class:"node-hit"});
+    g.appendChild(core);
+    const txt = el('text', {x:x, y: y + r + (opts.sub ? 15 : 20),
+      class:"node-label" + (opts.sub ? " sub" : "") + (opts.core ? " core" : "")});
+    txt.textContent = label + (opts.link ? " ↗" : "");
+    g.appendChild(txt);
+
+    core.addEventListener('mouseenter', (e)=> showTooltip(e, label, desc));
+    core.addEventListener('mousemove', positionTooltip);
+    core.addEventListener('mouseleave', hideTooltip);
+    if(opts.link){
+      core.style.cursor = "pointer";
+      core.addEventListener('click', ()=> { if(!editMode) window.location.href = OVERLAY_URL; });
+    }
+    nodesLayer.appendChild(g);
+
+    if(opts.addBadgeFor && editMode){
+      const bx = x + r + 14, by = y - r - 6;
+      const badge = el('circle', {cx:bx, cy:by, r:9, fill:"var(--panel)", stroke:"var(--node-core)", "stroke-width":1, class:"add-badge"});
+      const plus = el('text', {x:bx, y:by+4, "text-anchor":"middle", fill:"var(--node-core)", "font-size":12, "font-family":"var(--mono)", class:"add-badge"});
+      plus.textContent = "+";
+      badge.addEventListener('click', ()=> openAddModal(opts.addBadgeFor));
+      plus.addEventListener('click', ()=> openAddModal(opts.addBadgeFor));
+      nodesLayer.appendChild(badge);
+      nodesLayer.appendChild(plus);
+    }
+    return {x,y};
+  }
+
+  addNode(CENTER.x, CENTER.y, 26, CONFIG.center.label, CONFIG.center.desc, {core:true});
+
+  CONFIG.categories.forEach(cat => {
+    const cx = CENTER.x + CAT_RADIUS * Math.cos(deg2rad(cat.angle));
+    const cy = CENTER.y + CAT_RADIUS * Math.sin(deg2rad(cat.angle));
+    addLine(CENTER.x, CENTER.y, cx, cy, false);
+    addNode(cx, cy, 15, cat.label, cat.desc, {link:!!cat.link, addBadgeFor:cat.key});
+
+    const n = cat.subs.length;
+    const spread = n > 1 ? Math.min(22, MAX_ARC/(n-1)) : 0;
+    cat.subs.forEach((sub, i) => {
+      const offset = (i - (n-1)/2) * spread;
+      const angle = cat.angle + offset;
+      const sx = CENTER.x + SUB_RADIUS * Math.cos(deg2rad(angle));
+      const sy = CENTER.y + SUB_RADIUS * Math.sin(deg2rad(angle));
+      addLine(cx, cy, sx, sy, true);
+      addNode(sx, sy, 7, sub.label, sub.desc, {sub:true, link:!!sub.link});
+    });
+  });
+}
+
+function showTooltip(e, title, desc){
+  tooltip.innerHTML = `<div class="t-title">${title}</div>${desc}`;
+  tooltip.style.opacity = 1;
+  positionTooltip(e);
+}
+function positionTooltip(e){
+  const stage = document.getElementById('stage').getBoundingClientRect();
+  tooltip.style.left = (e.clientX - stage.left + 16) + "px";
+  tooltip.style.top = (e.clientY - stage.top + 10) + "px";
+}
+function hideTooltip(){ tooltip.style.opacity = 0; }
+
+document.getElementById('editToggle').addEventListener('click', () => {
+  editMode = !editMode;
+  document.getElementById('editToggle').classList.toggle('active', editMode);
+  document.getElementById('editToggle').textContent = editMode ? "✓ Bearbeiten aktiv" : "+ Bearbeiten";
+  render();
+});
+
+const addModalBg = document.getElementById('addModalBg');
+function openAddModal(categoryKey){
+  pendingCategoryKey = categoryKey;
+  const cat = CONFIG.categories.find(c => c.key === categoryKey);
+  document.getElementById('addModalTitle').textContent = "Neuen Knoten hinzufügen";
+  document.getElementById('addModalSub').textContent = `Wird unter "${cat.label}" eingehängt.`;
+  document.getElementById('addLabel').value = "";
+  document.getElementById('addDesc').value = "";
+  addModalBg.classList.add('show');
+}
+document.getElementById('addModalClose').addEventListener('click', ()=> addModalBg.classList.remove('show'));
+document.getElementById('addCancel').addEventListener('click', ()=> addModalBg.classList.remove('show'));
+document.getElementById('addConfirm').addEventListener('click', ()=>{
+  const label = document.getElementById('addLabel').value.trim();
+  const desc = document.getElementById('addDesc').value.trim();
+  if(!label) return;
+  const cat = CONFIG.categories.find(c => c.key === pendingCategoryKey);
+  cat.subs.push({label, desc: desc || "—"});
+  addModalBg.classList.remove('show');
+  render();
+});
+
+const exportModalBg = document.getElementById('exportModalBg');
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  document.getElementById('exportArea').value = JSON.stringify(CONFIG, null, 2);
+  exportModalBg.classList.add('show');
+});
+document.getElementById('exportModalClose').addEventListener('click', ()=> exportModalBg.classList.remove('show'));
+document.getElementById('copyExport').addEventListener('click', ()=>{
+  const area = document.getElementById('exportArea');
+  area.select();
+  document.execCommand('copy');
+  const btn = document.getElementById('copyExport');
+  const old = btn.textContent;
+  btn.textContent = "Kopiert ✓";
+  setTimeout(()=> btn.textContent = old, 1500);
+});
+
+loadConfig();
+</script>
+</body>
+</html>

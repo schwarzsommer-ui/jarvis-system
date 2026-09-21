@@ -1,0 +1,8 @@
+[build]
+  publish = "ui"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/agent"
+  to = "/.netlify/functions/agent"
+  status = 200

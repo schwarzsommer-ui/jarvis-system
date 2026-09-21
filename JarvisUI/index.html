@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>J.A.R.V.I.S. Command Center</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="globe-container" aria-hidden="true"></div>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">◉</span><div><strong>J.A.R.V.I.S.</strong><small>GLOBAL INTELLIGENCE COMMAND CENTER</small></div></div>
+      <div class="top-actions"><span class="live-dot"></span><span>SYSTEM ONLINE</span><button id="refresh-btn">↻ Aktualisieren</button></div>
+    </header>
+    <section class="status-strip">
+      <div><span class="label">KI-Gehirn</span><b>OLLAMA / CLAUDE</b><em>bereit</em></div>
+      <div><span class="label">Automationen</span><b>MAKE.COM</b><em>verbunden</em></div>
+      <div><span class="label">News-Feeds</span><b>RSS MONITOR</b><em>aktiv</em></div>
+      <div><span class="label">Benachrichtigungen</span><b>TELEGRAM / E-MAIL</b><em>wartend</em></div>
+    </section>
+    <div id="action-hud" class="action-hud" aria-live="polite">
+      <span id="action-icon" class="action-icon">◉</span>
+      <div><b id="action-title">BEREIT</b><small id="action-detail">Warte auf deinen Auftrag</small></div>
+      <span id="action-pulse" class="action-pulse"></span>
+    </div>
+    <div class="workspace">
+      <aside class="sidebar">
+        <button class="nav active" data-target="overview">⌂ Übersicht</button>
+        <button class="nav" data-target="global">◎ Globale Lage</button>
+        <button class="nav" data-target="politics">◈ Politik & Personen</button>
+        <button class="nav" data-target="crypto">⌁ Krypto & Märkte</button>
+        <button class="nav" data-target="memory">▣ Langzeit-Gedächtnis</button>
+        <button class="nav" data-target="setup">⚙ Einrichtung</button>
+        <div class="sidebar-bottom"><span class="label">JARVIS-ANSICHTEN</span><a href="jarvis-brain-map.html">Systemkarte ↗</a><a href="obsidian-brain.html">Obsidian Brain ↗</a><a href="jarvis-overlay.html">Live-Overlay ↗</a><span class="label">DATENQUELLEN</span><a href="https://claude.ai" target="_blank" rel="noreferrer">Claude ↗</a><a href="https://www.make.com" target="_blank" rel="noreferrer">Make.com ↗</a><a href="https://app.netlify.com" target="_blank" rel="noreferrer">Netlify ↗</a><a href="https://www.tradingview.com" target="_blank" rel="noreferrer">TradingView ↗</a><a href="https://web.telegram.org" target="_blank" rel="noreferrer">Telegram ↗</a></div>
+      </aside>
+      <section class="content">
+        <div id="overview" class="view active">
+          <div class="view-heading"><div><span class="eyebrow">LIVE INTELLIGENCE</span><h1>Guten Tag. Ich bin Jarvis.</h1><p>Globale Signale, Marktstruktur und Prioritäten auf einen Blick.</p></div><span id="clock" class="clock"></span></div>
+          <div class="grid-cards">
+            <article class="card wide"><div class="card-title"><span>⌁ GLOBALE LAGE</span><span id="digest-status" class="badge neutral">WARTET AUF DIGEST</span></div><h2 id="global-summary">Bereit für deinen Auftrag</h2><p id="digest-timestamp">Verbinde deine RSS-Feeds und Make.com-Szenarien, um aktuelle Ereignisse automatisch zu bewerten.</p><pre id="digest-output" class="digest-output">Noch kein Digest empfangen.</pre><div class="meter"><span style="width:72%"></span></div><small>Signalqualität · 72%</small></article>
+            <article class="card"><div class="card-title"><span>₿ KRYPTO</span><span class="badge">ANALYSE</span></div><h2>Marktstruktur</h2><p class="muted">Noch kein Symbol ausgewählt. Frage nach BTC, ETH oder einem Markt.</p><button class="text-btn" data-prompt="Analysiere die aktuelle Krypto-Marktstruktur">Analyse starten →</button></article>
+            <article class="card"><div class="card-title"><span>⚠ RISIKO-RADAR</span><span class="badge warning">BEOBACHTUNG</span></div><h2>Keine Alarme</h2><p class="muted">Jarvis meldet sich, sobald deine Quellen ein relevantes Ereignis liefern.</p></article>
+            <article class="card quick-card"><div class="card-title"><span>⚡ SCHNELLBEFEHLE</span><span class="badge">BEREIT</span></div><p class="muted">Starte eine Analyse direkt aus dem Dashboard.</p><div class="quick-actions"><button class="text-btn" data-prompt="Erstelle einen FX- und Gold-Market-Digest">FX & Gold</button><button class="text-btn" data-prompt="Analysiere die aktuelle Risk-On- oder Risk-Off-Stimmung">Risiko</button><button class="text-btn" data-prompt="Prüfe die wichtigsten Zentralbank-News">Zentralbanken</button></div></article>
+          </div>
+          <div class="lower-grid"><article class="card"><div class="card-title"><span>SCENARIO ENGINE</span></div><div class="scenarios"><div><b class="bull">BULLISH</b><span>Chancen & Katalysatoren</span></div><div><b class="flat">NEUTRAL</b><span>Abwarten & bestätigen</span></div><div><b class="bear">BEARISH</b><span>Risiken & Stressfaktoren</span></div></div></article><article class="card"><div class="card-title"><span>RELEVANTE PERSONEN</span></div><p class="muted">Noch keine priorisierten Personen erkannt.</p></article></div>
+        </div>
+        <div id="global" class="view"><div class="view-heading"><div><span class="eyebrow">WORLD MONITOR</span><h1>Globale Lage</h1><p>Zusammenhänge zwischen Welt, Wirtschaft und Märkten.</p></div></div><div class="detail-card"><h3>Live-Bericht anfordern</h3><p>Jarvis kann aktuelle Daten nur aus verbundenen Quellen bewerten. Starte eine Analyse über den Chat.</p><button class="primary" data-prompt="Erstelle einen globalen Lagebericht mit Auswirkungen auf Politik, Wirtschaft und Märkte">Bericht erstellen</button></div></div>
+        <div id="politics" class="view"><div class="view-heading"><div><span class="eyebrow">PEOPLE & POWER</span><h1>Politik & Personen</h1><p>Ereignisse, Akteure und Einfluss auf die globale Lage.</p></div></div><div class="detail-card"><h3>Monitoring bereit</h3><p>Füge politische RSS-Feeds in Make.com hinzu. Jarvis filtert danach wichtige Akteure und Ereignisse.</p><button class="primary" data-prompt="Welche politischen Ereignisse sind aktuell relevant und warum?">Politik analysieren</button></div></div>
+        <div id="crypto" class="view"><div class="view-heading"><div><span class="eyebrow">MARKET STRUCTURE</span><h1>Krypto & Märkte</h1><p>SMC, Liquidität, Orderflow, BOS, CHoCH, OB und FVG.</p></div></div><div class="analysis-list"><div class="analysis-row"><b>BOS / CHoCH</b><span>Strukturwechsel werden aus deinen Marktdaten bewertet.</span></div><div class="analysis-row"><b>LIQUIDITÄT</b><span>Stops, Sweeps und relevante Zonen identifizieren.</span></div><div class="analysis-row"><b>RISIKO</b><span>Keine Kauf- oder Verkaufsempfehlungen — nur Szenarien.</span></div></div><button class="primary" data-prompt="Analysiere BTC nach SMC, Liquidität, BOS, CHoCH, Orderblocks und FVG">Krypto-Analyse starten</button></div>
+        <div id="memory" class="view"><div class="view-heading"><div><span class="eyebrow">ADAPTIVE MEMORY</span><h1>Langzeit-Gedächtnis</h1><p>Jarvis lernt aus deinen ausdrücklich mitgeteilten Präferenzen.</p></div></div><div class="detail-card"><h3>Gedächtnis aktiv</h3><p>Schreibe zum Beispiel: „Merke dir, dass ich BTC auf dem 4-Stunden-Chart analysiere.“</p><button class="primary" data-prompt="Zeige mir mein Langzeit-Gedächtnis">Gedächtnis prüfen</button></div></div>
+        <div id="setup" class="view"><div class="view-heading"><div><span class="eyebrow">ONE-CLICK SETUP</span><h1>Dienste verbinden</h1><p>Einloggen, lokale Konfiguration ergänzen und danach prüfen.</p></div><button id="setup-refresh" class="primary">Status prüfen</button></div><div id="setup-list" class="detail-card"><p class="muted">Einrichtungsstatus wird geladen …</p></div></div>
+        <section class="chat-panel"><div class="chat-header"><span>JARVIS ASSISTANT</span><span id="command-status" class="muted">Bereit</span></div><div id="messages" class="messages"><div class="message jarvis"><b>JARVIS</b><p>Systemstatus: online. Frage mich nach Märkten, Nachrichten, Szenarien oder nächsten Schritten.</p></div></div><form id="chat-form"><input id="chat-input" autocomplete="off" placeholder="Frage Jarvis nach Lage, Politik, Krypto oder nächsten Schritten …" /><button id="voice-btn" type="button" title="Spracheingabe">◉</button><button type="submit">Senden ↗</button></form></section>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

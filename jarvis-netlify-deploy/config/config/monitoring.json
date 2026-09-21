@@ -1,0 +1,21 @@
+{
+  "enabled": false,
+  "pollSeconds": 60,
+  "financialAdvice": false,
+  "sources": {
+    "forex": { "enabled": false, "symbols": ["EURUSD", "GBPUSD"], "thresholds": {} },
+    "xauusd": { "enabled": false, "symbols": ["XAUUSD"], "thresholds": {} },
+    "crypto": { "enabled": false, "symbols": ["BTCUSD", "ETHUSD"], "thresholds": {} },
+    "news": { "enabled": false, "feeds": [], "keywords": [] }
+  },
+  "triggerEvents": [
+    { "name": "price_threshold", "enabled": false, "requiresConfirmation": true },
+    { "name": "news_keyword", "enabled": false, "requiresConfirmation": true },
+    { "name": "service_down", "enabled": false, "requiresConfirmation": false }
+  ],
+  "makeCalls": {
+    "enabled": false,
+    "webhookEnv": "MAKE_WEBHOOK_URL",
+    "requiresConfirmation": true
+  }
+}

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="J.A.R.V.I.S. Mission Control">
+    <title>J.A.R.V.I.S. | Mission Control</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="dashboard-shell">
+      <header class="topbar">
+        <a class="brand" href="#"><span class="brand-mark"></span><span>J.A.R.V.I.S.</span><small>MISSION CONTROL</small></a>
+        <div class="top-status"><span class="status-dot"></span><span id="bridge-status">BRÜCKE WIRD GEPRÜFT</span><span class="divider"></span><span>LOKALER KNOTEN 01</span></div>
+        <div class="top-time"><b id="clock">09:41</b><span id="date-label">11 SEP 2026</span></div>
+      </header>
+
+      <main class="command-grid">
+        <aside class="panel side-panel">
+          <div class="panel-heading"><span>BEFEHLSMODULE</span><i>04 ONLINE</i></div>
+          <button class="module-item active" data-scroll="#command"><span class="module-icon">◈</span><span><b>Befehlskern</b><small>Hauptschnittstelle</small></span><em>LIVE</em></button>
+          <button class="module-item" data-command="Was geht aktuell in der Welt ab?"><span class="module-icon">◎</span><span><b>Weltwache</b><small>Nachrichtenanalyse</small></span><em>OFFEN</em></button>
+          <button class="module-item" data-command="Analysiere Bitcoin, XAUUSD und Forex als Szenarien."><span class="module-icon">⌁</span><span><b>Marktscan</b><small>Krypto / Forex / Gold</small></span><em>OFFEN</em></button>
+          <button class="module-item" data-command="Prüfe mein Projekt auf Fehler und starte sichere Checks."><span class="module-icon">⌘</span><span><b>Projektlabor</b><small>Code / Builds / Tests</small></span><em>OFFEN</em></button>
+          <div class="panel-heading lower"><span>SCHNELLBEFEHLE</span></div>
+          <button class="quick-action" data-command="Erstelle ein Tagesbriefing mit Systemstatus und den wichtigsten News.">+ Tagesbriefing <b>→</b></button>
+          <button class="quick-action" data-command="Prüfe den Status meines Laptops.">+ Systemdiagnose <b>→</b></button>
+          <div class="side-footer"><span class="status-dot"></span><span>SICHERER KANAL</span><small>SICHERE AUSFÜHRUNG</small></div>
+        </aside>
+
+        <section class="center-column">
+          <div class="hero-strip">
+            <div><p class="eyebrow">J.A.R.V.I.S. / BEFEHLSKERN</p><h1>Guten Morgen, <strong>Tim.</strong></h1><p class="subline">Alle Systeme sind bereit. Womit soll ich beginnen?</p></div>
+            <div class="hero-actions"><span class="live-pill"><i></i> KERN AKTIV</span><button class="icon-button" data-scroll="#command" aria-label="Befehl öffnen">+</button></div>
+          </div>
+          <div class="core-panel panel" id="network-stage">
+            <div class="core-label"><span>NEURONALER KERN</span><small id="visual-state">BEREIT</small></div>
+            <div class="core-visual"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="core-glow"></div><div class="core-sphere"><span></span><b>J</b></div><div class="core-line line-a"></div><div class="core-line line-b"></div></div>
+            <div class="core-readout"><span>RECHENLEISTUNG <b>87%</b></span><span>NEURONALE LAST <b>32%</b></span><span>LAUFZEIT <b>17:42:09</b></span></div>
+            <canvas id="network-canvas" aria-hidden="true"></canvas>
+          </div>
+          <section class="panel command-panel" id="command">
+            <div class="panel-heading"><span>BEFEHLSEINGABE</span><i id="state">BEREIT FÜR ANWEISUNG</i></div>
+            <form id="agent-form">
+              <textarea id="message" maxlength="12000" required rows="2" aria-label="Jarvis-Befehl" placeholder="Sag Jarvis, was er tun soll ..."></textarea>
+              <div class="command-footer"><span id="counter">0 / 12000</span><div><button type="button" id="voice-button" class="small-button">MIKRO</button><span id="voice-status" class="voice-status" role="status" aria-live="polite"></span><label><input id="speak-toggle" type="checkbox"> VORLESEN</label><button type="submit" id="ask-button" class="send-button">STARTEN <b>→</b></button></div></div>
+              <select id="provider" hidden><option value="gemini">Gemini</option></select><select id="task" hidden><option value="default">Projekt</option></select><select id="mode" hidden><option value="plan">Plan</option></select>
+            </form>
+            <div id="reply" class="reply-box">Ich bin bereit. Welche Aufgabe soll ich übernehmen?</div>
+            <div id="plan-details" class="plan-details" hidden><div><b>SCHRITTE</b><ul id="steps"></ul></div><div><b>DATEIEN</b><ul id="files"></ul></div><div><b>TESTS</b><ul id="tests"></ul></div><div><b>RISIKEN</b><ul id="risks"></ul></div></div>
+            <div id="action-summary" class="action-summary" hidden><b>BESTÄTIGUNG ERFORDERLICH</b><span>Warte auf deine ausdrückliche Freigabe.</span></div>
+          </section>
+        </section>
+
+        <aside class="right-column">
+          <section class="panel metric-panel"><div class="panel-heading"><span>LIVE-TELEMETRIE</span><i id="telemetry-state">STREAMT</i></div><div class="metric"><span>AKTIVE PROZESSE</span><strong id="process-count">--</strong><small id="process-trend">LOKAL</small></div><div class="metric"><span>SPEICHERNUTZUNG</span><strong id="memory-value">--</strong><div class="meter"><i id="memory-meter" style="width:0%"></i></div></div><div class="metric"><span>NETZWERK-LATENZ</span><strong id="latency-value">--</strong><small id="latency-state" class="good">WARTET</small></div></section>
+          <section class="panel chart-panel"><div class="panel-heading"><span>NEURONALE AKTIVITÄT</span><i>LETZTE 60 MIN</i></div><div class="chart"><i style="height:28%"></i><i style="height:42%"></i><i style="height:35%"></i><i style="height:62%"></i><i style="height:49%"></i><i style="height:76%"></i><i style="height:58%"></i><i style="height:84%"></i><i style="height:68%"></i><i style="height:91%"></i><i style="height:73%"></i><i style="height:96%"></i></div><div class="chart-axis"><span>10:00</span><span>10:30</span><span>11:00</span></div></section>
+          <section class="panel activity-panel"><div class="panel-heading"><span>AKTIVITÄTEN</span><i>LIVE</i></div><ul id="activity-log"><li><i></i><span>Neuronaler Kern gestartet</span><time>jetzt</time></li><li><i></i><span>Lokale Brücke verbunden</span><time>jetzt</time></li><li><i></i><span>Warte auf deinen Befehl</span><time>jetzt</time></li></ul></section>
+          <section class="panel v2-live-panel"><div class="panel-heading"><span>V2-LIVE-KERN</span><i id="v2-live-status">PRÜFE</i></div><ul id="v2-live-feed"><li class="v2-event"><span>--:--:--</span><b>Initialisierung</b><small>Warte auf den lokalen V2-Server.</small></li></ul></section>
+          <section class="panel history-panel"><div class="panel-heading"><span>BEFEHLSVERLAUF</span><i id="history-count">0</i></div><ul id="command-history"><li class="history-empty">Noch keine Befehle</li></ul></section>
+          <section class="panel world-panel"><div class="panel-heading"><span>WELTIMPULS</span><i>RSS-SIGNALE</i></div><div class="world-orb"><span></span></div><div><strong>GLOBALES SIGNAL</strong><small>Nachrichtenkanäle bereit</small></div><button class="outline-button" data-command="Was geht aktuell in der Welt ab?">INTELLIGENZ ÖFFNEN →</button></section>
+        </aside>
+      </main>
+      <footer><span>J.A.R.V.I.S. // PRIVATES LOKALES BEFEHLSZENTRUM</span><span><b id="agent-status">BEREIT</b> · SICHERE AUSFÜHRUNG · v3.0</span></footer>
+    </div>
+    <div id="orb" hidden></div><section class="system-check" hidden><button id="check-button" type="button">CHECK</button><p id="check-summary"></p><ul id="check-list"></ul></section>
+    <section id="scene-workspace" class="scene-workspace" aria-hidden="true">
+      <div class="scene-backdrop"></div>
+      <div class="scene-shell">
+        <header class="scene-header"><span><i class="scene-live"></i> J.A.R.V.I.S. / <b id="scene-mode">BEFEHL</b></span><button id="scene-close" type="button">SCHLIESSEN ×</button></header>
+        <div class="scene-content">
+          <div class="scene-visual" id="scene-visual"><div class="scene-globe"></div><div class="scene-orbit"></div><div class="scene-scan"></div><span class="scene-core">J</span><div class="scene-readouts" aria-hidden="true"><span>ORBITALVERBINDUNG <b>AKTIV</b></span><span>SCANRADIUS <b>LOKAL</b></span><span>DATENSTROM <b>LIVE</b></span></div></div>
+          <aside class="scene-region-panel" aria-live="polite">
+            <div class="scene-region-kicker">REGIONALE INTELLIGENZ</div>
+            <h3 id="scene-region-title">REGIONALE INTELLIGENZ</h3>
+            <p id="scene-region-meta">GLOBALER RSS-STREAM</p>
+            <div class="scene-region-media"><img id="scene-region-image" alt="Ansicht der Region" loading="lazy"></div>
+            <div class="scene-region-status"><i></i> LIVE VERIFIZIERTER FEED</div>
+            <div class="scene-region-facts"><span id="scene-region-weather">WETTER --</span><span id="scene-region-time">ORTSZEIT --</span><span id="scene-region-coordinates">KOORDINATEN --</span></div>
+            <ul id="scene-region-news"><li>Regionale Meldungen werden synchronisiert ...</li></ul>
+          </aside>
+          <div class="scene-copy"><p id="scene-kicker">LIVE-ARBEITSBEREICH</p><h2 id="scene-title">Arbeitsansicht</h2><p id="scene-subtitle">Jarvis passt die Darstellung an deinen Auftrag an.</p><div class="scene-progress"><i id="scene-progress-bar"></i></div><span id="scene-status">BEREIT</span></div>
+        </div>
+        <div class="scene-panels"><article><span>JARVIS-ANTWORT</span><b id="scene-provider"></b><p id="scene-response">Warte auf deinen Auftrag ...</p></article><article><span>VERIFIZIERTE SIGNALE</span><ul id="scene-signals"><li>Bereit für Datenabruf</li><li>Keine Antwort behauptet</li></ul></article><article class="scene-timeline-panel"><span>BEFEHLSVERLAUF</span><ol id="scene-timeline"><li class="timeline-empty">Auftrag wird vorbereitet</li></ol></article></div>
+      </div>
+    </section>
+    <script type="module" src="app.js"></script>
+    <script src="live_dashboard.js"></script>
+  </body>
+</html>

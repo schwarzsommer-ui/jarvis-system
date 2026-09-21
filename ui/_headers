@@ -1,0 +1,5 @@
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.anthropic.com https://nominatim.openstreetmap.org https://api.open-meteo.com https://tile.openstreetmap.org http://127.0.0.1:8765 http://localhost:8765; img-src 'self' data: https://threejs.org https://tile.openstreetmap.org https://images.unsplash.com; object-src 'none'; base-uri 'none'; frame-ancestors 'none'
+  Referrer-Policy: no-referrer
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "claude": {
+    "enabled": true,
+    "secretEnv": "CLAUDE_API_KEY",
+    "modelEnv": "CLAUDE_MODEL"
+  },
+  "runner": {
+    "enabled": false,
+    "secretEnv": "JARVIS_RUNNER_URL",
+    "tokenEnv": "JARVIS_RUNNER_TOKEN",
+    "requiredControls": ["isolatedWorkspace", "commandAllowlist", "timeout", "auditLog"]
+  },
+  "storage": {
+    "enabled": false,
+    "urlEnv": "JARVIS_DATABASE_URL",
+    "requiredFor": ["jobs", "auditLogs", "projects", "conversations"]
+  },
+  "integrations": {
+    "make": { "enabled": false, "secretEnv": "MAKE_WEBHOOK_URL" },
+    "telegram": { "enabled": false, "secretEnv": "TELEGRAM_BOT_TOKEN" },
+    "marketData": { "enabled": false, "secretEnv": "MARKET_DATA_API_KEY" },
+    "deploy": { "enabled": false, "secretEnv": "DEPLOY_HOOK_URL" }
+  }
+}

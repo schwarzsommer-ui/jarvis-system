@@ -1,0 +1,22 @@
+{
+  "type": "execute_shell",
+  "payload": {
+    "command": "whoami"
+  },
+  "context": {
+    "command": "F\u00fchre Shell aus",
+    "auto_confirmed": false,
+    "allowlisted": false,
+    "requires_confirmation": true,
+    "safety": {
+      "safe": false,
+      "blocked": true,
+      "action_type": "execute_shell",
+      "reason": "dangerous_action_requires_explicit_review"
+    }
+  },
+  "id": "4e35784a243a45fd869e44461e74fb50",
+  "timestamp": "2026-09-15T01:27:18.537032+00:00",
+  "confirmed": false,
+  "status": "pending"
+}

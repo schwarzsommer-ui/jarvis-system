@@ -1,0 +1,12 @@
+name = "jarvis-telegram-relay"
+main = "worker.js"
+compatibility_date = "2026-09-18"
+
+[[kv_namespaces]]
+binding = "TELEGRAM_QUEUE"
+id = "05ccbda051164635a913121052170da1"
+preview_id = "13fba78829e845ccae6733fc64cc4c55"
+
+[vars]
+# Set secrets with `npx wrangler secret put TELEGRAM_WEBHOOK_SECRET`,
+# `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, and `QUEUE_API_TOKEN`.

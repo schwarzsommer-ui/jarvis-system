@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J.A.R.V.I.S. Sprachzentrale</title>
+<style>
+:root{--void:#03070b;--panel:#07121a;--line:#173542;--amber:#ff8a2b;--soft:#ffcf78;--cyan:#65d9ff;--blue:#247da1;--text:#e5f7ff;--dim:#71909d;--mono:Consolas,monospace}
+*{box-sizing:border-box}html,body{height:100%;margin:0;background:radial-gradient(circle at 50% 25%,#102d3a,#03070b 62%);color:var(--text);font-family:Segoe UI,Arial,sans-serif}
+body{display:flex;flex-direction:column;border:1px solid var(--line);overflow:hidden;position:relative}
+body:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;background:repeating-linear-gradient(0deg,transparent 0 3px,#65d9ff 4px,transparent 5px);mix-blend-mode:screen}
+header{padding:18px 28px;border-bottom:1px solid var(--line);font:11px var(--mono);letter-spacing:.18em;color:var(--cyan);position:relative}
+header:after{content:"SECURE LOCAL UPLINK  //  NODE 01";position:absolute;right:28px;top:20px;color:var(--dim);font:10px var(--mono);letter-spacing:.1em}
+header b{display:block;color:var(--text);font:700 25px Segoe UI;letter-spacing:.12em;margin-top:5px;text-shadow:0 0 18px #65d9ff66}
+.core{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative}
+.core:before{content:"";position:absolute;inset:20px;background:linear-gradient(90deg,transparent 49.8%,#65d9ff24 50%,transparent 50.2%),linear-gradient(transparent 49.8%,#65d9ff24 50%,transparent 50.2%);background-size:44px 44px;mask-image:radial-gradient(circle,#000,transparent 68%);pointer-events:none}
+.core:after{content:"";position:absolute;width:72%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);top:26%;opacity:.35;animation:scan 4s linear infinite}
+.orb{width:min(30vw,260px);height:min(30vw,260px);border:1px solid var(--amber);border-radius:50%;display:grid;place-items:center;box-shadow:0 0 20px #ff8a2b66,0 0 90px #ff8a2b22;position:relative;z-index:1;transition:.25s ease}
+.orb:before,.orb:after{content:"";position:absolute;border:1px solid #65d9ff66;border-radius:50%;transform:rotate(25deg)}
+.orb:before{inset:18px 45px}.orb:after{inset:45px 18px;transform:rotate(-25deg)}
+.orb:after{animation:orbit 8s linear infinite}
+.orb:before{animation:orbitReverse 11s linear infinite}
+.orb:has(+ #state.listening){border-color:var(--cyan)}
+.orb span{font:11px var(--mono);letter-spacing:.2em;color:var(--soft)}
+.orb.listening{border-color:var(--cyan);box-shadow:0 0 22px #65d9ff88,0 0 90px #65d9ff22}
+.orb.voice-active.listening{animation:listen 1s infinite}
+.orb.thinking{box-shadow:0 0 24px #ff8a2b66,0 0 90px #ff8a2b22}
+.orb.speaking{border-color:var(--soft);animation:speak .45s infinite alternate}
+@keyframes listen{50%{transform:scale(1.04);box-shadow:0 0 55px #65d9ffcc,0 0 150px #65d9ff55}}
+@keyframes speak{to{transform:scale(1.035);box-shadow:0 0 45px #ffb347cc,0 0 140px #ff8a2b55}}
+@keyframes pulse{50%{box-shadow:0 0 35px #ff8a2b99,0 0 130px #ff8a2b44}}
+@keyframes orbit{to{transform:rotate(385deg)}}
+@keyframes orbitReverse{to{transform:rotate(-335deg)}}
+@keyframes scan{0%{transform:translateY(-80px);opacity:0}20%,80%{opacity:.35}100%{transform:translateY(360px);opacity:0}}
+.hud-corner{position:absolute;width:30px;height:30px;border-color:var(--cyan);opacity:.65;z-index:1}
+.top-left{top:26px;left:28px;border-top:1px solid;border-left:1px solid}.top-right{top:26px;right:28px;border-top:1px solid;border-right:1px solid}
+.bottom-left{bottom:26px;left:28px;border-bottom:1px solid;border-left:1px solid}.bottom-right{bottom:26px;right:28px;border-bottom:1px solid;border-right:1px solid}
+.telemetry{position:absolute;top:34px;left:50%;transform:translateX(-50%);font:9px var(--mono);letter-spacing:.12em;color:var(--dim);z-index:1}
+.telemetry b{color:var(--cyan);font-weight:400}
+.device-row{display:flex;align-items:center;gap:8px;width:min(760px,90%);margin-top:10px;color:var(--dim);font:10px var(--mono);letter-spacing:.08em;z-index:1}
+.device-row select{flex:1;background:#050c11;border:1px solid var(--line);color:var(--text);padding:8px;font:11px var(--mono);outline:none}
+#state{margin:28px 0 16px;font:12px var(--mono);letter-spacing:.16em;color:var(--dim);z-index:1;text-shadow:0 0 12px currentColor}
+#state.active{color:var(--soft)}
+#state.listening{color:var(--cyan)}
+.meter{display:flex;gap:4px;height:24px;align-items:center;opacity:.25;z-index:1}
+.meter i{display:block;width:3px;height:8px;background:var(--soft);transition:height .1s ease}
+.meter.active{opacity:1}.meter.active i{animation:eq .55s ease-in-out infinite alternate}
+.meter i:nth-child(2){animation-delay:.08s}.meter i:nth-child(3){animation-delay:.16s}.meter i:nth-child(4){animation-delay:.24s}.meter i:nth-child(5){animation-delay:.32s}
+@keyframes eq{to{height:22px;background:var(--amber)}}
+#log{width:min(760px,90%);height:150px;overflow:auto;border:1px solid var(--line);background:#03090d;padding:14px;font:13px/1.55 var(--mono);color:var(--dim);box-shadow:inset 0 0 28px #65d9ff0d}
+.project-panel{width:min(760px,90%);margin-top:14px;border:1px solid var(--line);background:#061017;padding:12px;z-index:1}
+.project-panel summary{cursor:pointer;color:var(--cyan);font:11px var(--mono);letter-spacing:.1em}
+.project-grid{display:grid;grid-template-columns:140px 1fr;gap:8px;margin-top:12px}
+.project-grid label{color:var(--dim);font:10px var(--mono);padding-top:10px}
+.project-grid input,.project-grid textarea,.project-grid select{width:100%;background:#03090d;border:1px solid var(--line);color:var(--text);padding:9px;font:12px var(--mono)}
+.project-grid textarea{min-height:74px;resize:vertical}
+.project-actions{display:flex;gap:8px;margin-top:10px}
+.project-actions button{height:34px}
+#projectResult{margin-top:10px;white-space:pre-wrap;color:var(--dim);font:11px/1.45 var(--mono);max-height:170px;overflow:auto}
+.row{display:flex;width:min(760px,90%);gap:10px;margin-top:14px}
+input{flex:1;background:#050c11;border:1px solid var(--line);color:var(--text);padding:13px;font-size:15px;outline:none;box-shadow:inset 0 0 14px #65d9ff0b}
+button{border:1px solid var(--line);background:#081b25;color:var(--soft);padding:0 18px;cursor:pointer;font:12px var(--mono);letter-spacing:.08em}
+button:hover,button.active{border-color:var(--amber);background:#3a1c0d;color:var(--text)}
+footer{padding:12px 28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font:10px var(--mono);color:var(--dim)}
+</style>
+</head>
+<body>
+<header>J.A.R.V.I.S. <b>SPRACHZENTRALE</b></header>
+<main class="core">
+  <div class="hud-corner top-left"></div><div class="hud-corner top-right"></div>
+  <div class="hud-corner bottom-left"></div><div class="hud-corner bottom-right"></div>
+  <div class="telemetry">AUDIO LINK <b>READY</b> · LATENCY <b>LOCAL</b> · ENCRYPTED</div>
+  <div class="orb" id="orb"><span id="orbLabel">STANDBY</span></div>
+  <div id="state">BEREIT FÜR DEINEN BEFEHL</div>
+  <div class="meter" id="meter" aria-label="Sprachaktivität"><i></i><i></i><i></i><i></i><i></i></div>
+  <div id="log"></div>
+  <div class="row"><button id="mic">MIKROFON AKTIV</button><input id="input" placeholder="Sprich oder schreibe einen Befehl …" autocomplete="off"><button id="send">SENDEN</button></div>
+  <details class="project-panel">
+    <summary>PROJEKTÄNDERUNG PRÜFEN UND BESTÄTIGEN</summary>
+    <div class="project-grid">
+      <label for="projectOperation">Vorgang</label>
+      <select id="projectOperation"><option value="repair">Reparatur</option><option value="write">Datei schreiben</option><option value="read">Datei lesen</option><option value="test">Test ausführen</option></select>
+      <label for="projectPath">Datei</label>
+      <input id="projectPath" placeholder="frontend/dashboard/index.html">
+      <label for="projectContent">Neuer Inhalt</label>
+      <textarea id="projectContent" placeholder="Bei read/test leer lassen. Bei write/repair den vollständigen neuen Inhalt einfügen."></textarea>
+      <label for="projectReason">Grund</label>
+      <input id="projectReason" placeholder="Was soll verbessert werden?">
+    </div>
+    <div class="project-actions"><button id="projectPlan">PLAN ERSTELLEN</button><button id="projectConfirm" disabled>BESTÄTIGEN</button><button id="projectCancel" disabled>ABBRECHEN</button></div>
+    <div id="projectResult">Noch kein Projektplan erstellt.</div>
+  </details>
+  <div class="device-row"><span>INPUT</span><select id="audioDevice" aria-label="Mikrofon auswählen"><option>MIKROFON WIRD GESUCHT …</option></select></div>
+  <div class="device-row"><span>VOICE</span><select id="voiceDevice" aria-label="Stimme auswählen"><option>STIMME WIRD GESUCHT …</option></select></div>
+</main>
+<footer><span>TEAM: PLANNER · RESEARCH · CODER · VERIFIER</span><span id="status">BACKEND PRÜFEN …</span></footer>
+<script>
+const $=s=>document.querySelector(s),log=$('#log'),state=$('#state'),orb=$('#orb'),meter=$('#meter'),orbLabel=$('#orbLabel'),mic=$('#mic'),audioDevice=$('#audioDevice'),voiceDevice=$('#voiceDevice');
+function write(label,text){const p=document.createElement('div');p.textContent=label+': '+text;log.appendChild(p);log.scrollTop=log.scrollHeight}
+let audioStream=null, audioContext=null, analyser=null, levelFrame=0, selectedDeviceId=localStorage.getItem('jarvisAudioDevice')||'', voiceActive=false, lastVoiceAt=0, speechStartedAt=0;
+let selectedVoiceName=localStorage.getItem('jarvisVoice')||'';
+let muted=localStorage.getItem('jarvisMuted')==='true';
+function loadVoices(){
+  if(!('speechSynthesis'in window))return;
+  const voices=speechSynthesis.getVoices();
+  if(!voices.length)return;
+  voiceDevice.innerHTML='';
+  const german=voices.filter(voice=>/^de(-|_)/i.test(voice.lang));
+  const candidates=german.length?german:voices;
+  const preferred=candidates.find(voice=>/Microsoft.*Katja/i.test(voice.name))
+    ||candidates.find(voice=>/Microsoft.*(Stefanie|Conrad|Hedda)|Google Deutsch|Anna/i.test(voice.name));
+  const active=candidates.find(voice=>voice.name===selectedVoiceName)||preferred||candidates[0];
+  candidates.forEach(voice=>{
+    const option=document.createElement('option');
+    option.value=voice.name;
+    option.textContent=`${voice.name} (${voice.lang})`;
+    option.selected=voice.name===active.name;
+    voiceDevice.appendChild(option);
+  });
+  selectedVoiceName=active.name;
+  localStorage.setItem('jarvisVoice',selectedVoiceName);
+  write('VOICE',`Stimme bereit: ${active.name}`);
+}
+voiceDevice.onchange=()=>{selectedVoiceName=voiceDevice.value;localStorage.setItem('jarvisVoice',selectedVoiceName);write('VOICE','Stimme geändert')};
+async function bindAudioDevice(deviceId){
+  if(audioStream)audioStream.getTracks().forEach(track=>track.stop());
+  audioStream=await navigator.mediaDevices.getUserMedia({audio:deviceId?{deviceId:{exact:deviceId}}:true});
+  if(audioContext)await audioContext.close();
+  audioContext=new AudioContext();
+  analyser=audioContext.createAnalyser();
+  analyser.fftSize=64;
+  audioContext.createMediaStreamSource(audioStream).connect(analyser);
+  updateAudioLevel();
+}
+function updateAudioLevel(){
+  if(!analyser)return;
+  const values=new Uint8Array(analyser.frequencyBinCount);
+  analyser.getByteTimeDomainData(values);
+  const rms=Math.sqrt(values.reduce((sum,value)=>sum+(value-128)*(value-128),0)/values.length)/128;
+  const level=Math.max(0,Math.min(1,(rms-.015)/.12));
+  const now=performance.now();
+  if(level>.18){if(!speechStartedAt)speechStartedAt=now;lastVoiceAt=now}else if(now-lastVoiceAt>220){speechStartedAt=0}
+  const sustainedSpeech=speechStartedAt>0&&now-speechStartedAt>320;
+  const active=listening && sustainedSpeech;
+  if(active!==voiceActive){
+    voiceActive=active;
+    orb.classList.toggle('voice-active',active);
+    meter.classList.toggle('active',active||speaking);
+  }
+  document.querySelectorAll('.meter i').forEach((bar,index)=>{
+    const wave=0.35+level*(0.65-(index%2)*0.12);
+    bar.style.height=`${Math.max(5,Math.round(24*wave))}px`;
+  });
+  levelFrame=requestAnimationFrame(updateAudioLevel);
+}
+async function loadAudioDevices(){
+  if(!navigator.mediaDevices?.enumerateDevices){audioDevice.innerHTML='<option>MIKROFON-API NICHT VERFÜGBAR</option>';return}
+  try{
+    await bindAudioDevice('');
+    const devices=await navigator.mediaDevices.enumerateDevices();
+    const inputs=devices.filter(device=>device.kind==='audioinput');
+    audioDevice.innerHTML='';
+    if(!inputs.length){audioDevice.innerHTML='<option>KEIN MIKROFON GEFUNDEN</option>';return}
+    const preferred=inputs.find(device=>/astro\s*a50|a50\s+wireless|headset/i.test(device.label));
+    const active=inputs.find(device=>device.deviceId===selectedDeviceId)||preferred||inputs[0];
+    inputs.forEach(device=>{
+      const option=document.createElement('option');
+      option.value=device.deviceId;
+      option.textContent=device.label||`MIKROFON ${audioDevice.length+1}`;
+      option.selected=device.deviceId===active.deviceId;
+      audioDevice.appendChild(option);
+    });
+    selectedDeviceId=active.deviceId;
+    localStorage.setItem('jarvisAudioDevice',selectedDeviceId);
+    await bindAudioDevice(selectedDeviceId);
+    write('AUDIO',/astro\s*a50|a50\s+wireless|headset/i.test(active.label)?`Astro A50 ausgewählt: ${active.label}`:`Fallback-Mikrofon: ${active.label||'Standardgerät'}`);
+  }catch(error){
+    audioDevice.innerHTML='<option>MIKROFON-ZUGRIFF VERWEIGERT</option>';
+    write('AUDIO','Mikrofonzugriff erforderlich');
+  }
+}
+audioDevice.onchange=async()=>{selectedDeviceId=audioDevice.value;localStorage.setItem('jarvisAudioDevice',selectedDeviceId);try{await bindAudioDevice(selectedDeviceId);write('AUDIO','Eingabegerät geändert')}catch(error){write('AUDIO','Eingabegerät konnte nicht geöffnet werden')}};
+let listening=false, speaking=false, requestId=0, restartTimer=null, currentAudio=null, elevenLabsReady=false, pendingConfirmationId='', pendingRepairId='', pendingGithubPlanId='';
+function stopSpeaking(){if('speechSynthesis'in window){speechSynthesis.cancel()}if(currentAudio){currentAudio.pause();currentAudio.src='';currentAudio=null}speaking=false;if(!listening){orb.classList.remove('speaking');meter.classList.remove('active')}}
+function setState(label,mode){state.textContent=label;state.className=mode||'';orb.className='orb '+(mode||'');orbLabel.textContent=mode==='listening'?'LISTENING':mode==='thinking'?'PROCESSING':mode==='speaking'?'SPEAKING':'STANDBY';if(mode!=='listening'){voiceActive=false;speechStartedAt=0;orb.classList.remove('voice-active')}meter.classList.toggle('active',mode==='speaking')}
+const API='http://127.0.0.1:8787';
+let projectPlanId='';
+function showProject(value){$('#projectResult').textContent=typeof value==='string'?value:JSON.stringify(value,null,2)}
+async function createProjectPlan(){
+  const operation=$('#projectOperation').value;
+  const payload={operation,path:$('#projectPath').value.trim(),content:$('#projectContent').value,reason:$('#projectReason').value.trim()};
+  if(operation==='test')payload.command=payload.path;
+  if(!payload.path&&operation!=='test'){showProject('Dateipfad erforderlich.');return}
+  try{
+    const data=await apiRequest('/project/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    projectPlanId=data.plan_id||'';
+    showProject(data);
+    $('#projectConfirm').disabled=!data.requires_confirmation;
+    $('#projectCancel').disabled=!data.requires_confirmation;
+    write('PROJEKT','Plan erstellt. Noch nichts geändert.');
+  }catch(error){showProject(error.message);write('PROJEKT',error.message)}
+}
+async function confirmProject(confirmed){
+  if(!projectPlanId)return;
+  try{
+    const data=await apiRequest('/project/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan_id:projectPlanId,confirmed})});
+    showProject(data);write('PROJEKT',data.status==='completed'?'Änderung ausgeführt und geprüft.':'Keine Änderung ausgeführt.');
+    projectPlanId='';$('#projectConfirm').disabled=true;$('#projectCancel').disabled=true;
+  }catch(error){showProject(error.message);write('PROJEKT',error.message)}
+}
+$('#projectPlan').onclick=createProjectPlan;$('#projectConfirm').onclick=()=>confirmProject(true);$('#projectCancel').onclick=()=>confirmProject(false);
+async function apiRequest(path,options={},timeoutMs=45000){const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),timeoutMs);try{const response=await fetch(API+path,{...options,signal:controller.signal});let data=null;try{data=await response.json()}catch(error){}if(!response.ok)throw Error(data?.detail||data?.error||`Backend HTTP ${response.status}`);return data}catch(error){if(error.name==='AbortError')throw Error('Backend antwortet zu langsam oder ist nicht erreichbar');if(error instanceof TypeError)throw Error('Backend nicht erreichbar – prüfe, ob JARVIS gestartet ist');throw error}finally{clearTimeout(timer)}}
+function speakWithBrowser(text,current){
+  if(!('speechSynthesis' in window))throw Error('Keine lokale Sprachausgabe verfügbar');
+  speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(text);
+  const voices=speechSynthesis.getVoices();
+  const selected=voices.find(voice=>voice.name===selectedVoiceName)
+    || voices.find(voice=>/^de(-|_)/i.test(voice.lang));
+  if(selected){utterance.voice=selected;utterance.lang=selected.lang||'de-DE'}
+  utterance.onstart=()=>{if(current===requestId){speaking=true;setState('JARVIS SPRICHT (LOKAL)','speaking')}};
+  utterance.onend=()=>{speaking=false;if(current===requestId&&!listening)setState('BEREIT FÜR DEINEN BEFEHL','')};
+  utterance.onerror=()=>{speaking=false;if(current===requestId&&!listening)setState('ANTWORT BEREIT','')};
+  speechSynthesis.speak(utterance);
+}
+async function detectElevenLabs(){
+   try{
+     const status=await fetch(API+'/status');
+     if(status.ok){
+       const data=await status.json();
+       elevenLabsReady=Boolean(data.tts&&data.tts.configured);
+     }else elevenLabsReady=false;
+   }catch(error){elevenLabsReady=false}
+}
+async function speak(text,current){
+  if(elevenLabsReady===false){speakWithBrowser(text,current);return}
+  try{
+    const response=await fetch(API+'/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text}),signal:AbortSignal.timeout(30000)});
+    if(!response.ok)throw Error('ElevenLabs nicht verfügbar');
+    const blob=await response.blob();
+    if(current!==requestId)return;
+    currentAudio=new Audio(URL.createObjectURL(blob));
+    currentAudio.onplay=()=>{speaking=true;setState('JARVIS SPRICHT','speaking')};
+    currentAudio.onended=()=>{speaking=false;URL.revokeObjectURL(currentAudio.src);currentAudio=null;if(current===requestId&&!listening)setState('BEREIT FÜR DEINEN BEFEHL','')};
+    await currentAudio.play();
+  }catch(error){
+    if(current!==requestId)return;
+    speakWithBrowser(text,current);
+  }
+}
+async function send(text){text=text.trim();if(!text)return;stopSpeaking();write('DU',text);const useTeam=/\b(team|mehrere\s+kis|gründlich|ausführlich|analysiere|plane|recherchiere)\b/i.test(text);const yes=/^(ja|ja bitte|bestätigt|bestaetigt|bestätige|bestaetige|mach es|ausführen|ausfuehren)$/i.test(text);const no=/^(nein|abbrechen|stopp|stop)$/i.test(text);setState(useTeam?'TEAM ARBEITET':'VERARBEITUNG','thinking');const current=++requestId;try{if(pendingGithubPlanId&&(yes||no)){const planId=pendingGithubPlanId;pendingGithubPlanId='';const result=await apiRequest('/github/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan_id:planId,confirmed:yes})});const message=result.message||(yes?'GitHub-Repository importiert und geprüft.':'Abgebrochen. Es wurde nichts importiert.');write('JARVIS',message);await speak(message,current);return}if(pendingRepairId&&(yes||no)){const repairId=pendingRepairId;pendingRepairId='';const repair=await apiRequest('/capabilities/repair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({repair_id:repairId,confirmed:yes})});write('JARVIS',repair.response);await speak(repair.response,current);return}const approval=pendingConfirmationId&&yes;const cancellation=pendingConfirmationId&&no;const d=await apiRequest('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:text,source:'voice',team:useTeam,confirmed:Boolean(approval),confirmation_id:(approval||cancellation)?pendingConfirmationId:''})});if(current!==requestId)return;if(d.status==='confirmation_required')pendingConfirmationId=d.confirmation_id||'';else if(d.status==='adapter_confirmation_required')pendingRepairId=d.repair_id||'';else if(d.status==='github_confirmation_required')pendingGithubPlanId=d.plan_id||'';else if(approval||cancellation||d.status==='confirmation_expired')pendingConfirmationId='';write('JARVIS',d.response);try{await speak(d.response,current)}catch(error){write('VOICE',error.message);setState('ANTWORT BEREIT','')}}catch(e){if(current===requestId){write('FEHLER',e.message);setState('BEREIT FÜR DEINEN BEFEHL','')}}}
+$('#send').onclick=()=>{const i=$('#input');send(i.value);i.value=''};$('#input').onkeydown=e=>{if(e.key==='Enter')$('#send').click()};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec,lastRecognitionError='';if(SR){rec=new SR();rec.lang='de-DE';rec.interimResults=true;rec.continuous=false;rec.onstart=()=>{lastRecognitionError='';listening=true;lastVoiceAt=0;setState('ICH HÖRE ZU','listening');mic.classList.toggle('active',!muted);if(audioContext)audioContext.resume()};rec.onerror=e=>{lastRecognitionError=e.error;listening=false;mic.classList.remove('active');if(e.error!=='no-speech'&&e.error!=='aborted')write('MIKROFON',e.error==='not-allowed'?'Zugriff verweigert – Mikrofon in Edge erlauben':e.error==='network'?'Browser-Spracherkennung nicht erreichbar. Prüfe Internet oder nutze Texteingabe.':`Spracherkennung: ${e.error}`);setState(e.error==='network'?'SPRACHE OFFLINE':'BEREIT FÜR DEINEN BEFEHL','')};rec.onend=()=>{listening=false;voiceActive=false;orb.classList.remove('voice-active');mic.classList.remove('active');if(!muted&&lastRecognitionError!=='network'&&lastRecognitionError!=='not-allowed'){clearTimeout(restartTimer);restartTimer=setTimeout(startRecognition,250)}else if(muted)setState('STUMM','')};rec.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){const phrase=e.results[i][0].transcript;if(phrase.trim()){if(speaking)stopSpeaking();if(e.results[i].isFinal)send(phrase);else interim+=phrase}}if(interim){state.textContent='ICH HÖRE: '+interim;state.className='listening'}};function startRecognition(){if(muted||listening)return;try{rec.start()}catch(e){}}function setMuted(value){muted=value;localStorage.setItem('jarvisMuted',String(muted));if(muted){clearTimeout(restartTimer);if(listening){try{rec.stop()}catch(e){}}stopSpeaking();mic.textContent='MIKROFON STUMM';mic.classList.remove('active');setState('STUMM','')}else{mic.textContent='MIKROFON AKTIV';setState('BEREIT FÜR DEINEN BEFEHL','');startRecognition()}}mic.onclick=()=>setMuted(!muted)}else{mic.disabled=true;mic.textContent='SPRACHE NICHT VERFÜGBAR'}
+loadAudioDevices();
+loadVoices();
+if('speechSynthesis'in window)speechSynthesis.onvoiceschanged=loadVoices;
+if(SR&&!muted){mic.textContent='MIKROFON AKTIV';setTimeout(startRecognition,600)}else if(muted){mic.textContent='MIKROFON STUMM';setState('STUMM','')}
+if(navigator.mediaDevices?.addEventListener)navigator.mediaDevices.addEventListener('devicechange',loadAudioDevices);
+apiRequest('/health',{},5000).then(()=>{$('#status').textContent='BACKEND ONLINE'}).catch(()=>{$('#status').textContent='BACKEND OFFLINE'});
+detectElevenLabs();
+</script>
+</body>
+</html>

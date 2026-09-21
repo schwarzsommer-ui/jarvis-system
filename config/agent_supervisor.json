@@ -1,0 +1,38 @@
+{
+  "enabled": true,
+  "auto_install_safe_dependencies": true,
+  "max_install_seconds": 240,
+  "max_retries": 1,
+  "max_parallel_agents": 4,
+  "max_queued_agents": 200,
+  "roles": [
+    "planner",
+    "researcher",
+    "operator",
+    "coder",
+    "memory",
+    "verifier"
+  ],
+  "safe_capabilities": {
+    "youtube_video": {
+      "packages": ["playwright", "youtube-transcript-api", "pytesseract", "Pillow"],
+      "imports": ["playwright", "youtube_transcript_api", "pytesseract", "PIL"]
+    },
+    "browser": {
+      "packages": ["playwright"],
+      "imports": ["playwright"]
+    },
+    "ocr": {
+      "packages": ["pytesseract", "Pillow"],
+      "imports": ["pytesseract", "PIL"]
+    },
+    "desktop": {
+      "packages": ["pyautogui", "pywinauto", "pyperclip"],
+      "imports": ["pyautogui", "pywinauto", "pyperclip"]
+    },
+    "voice": {
+      "packages": ["SpeechRecognition", "sounddevice", "edge-tts"],
+      "imports": ["speech_recognition", "sounddevice", "edge_tts"]
+    }
+  }
+}

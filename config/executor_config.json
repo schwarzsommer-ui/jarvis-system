@@ -1,0 +1,7 @@
+{
+  "enabled": false,
+  "queue_path": "executor/queue",
+  "poll_interval_seconds": 2,
+  "require_confirmation": true,
+  "allowlisted_types": ["desktop", "browser", "workflow"]
+}

@@ -1,0 +1,37 @@
+{
+  "sources": [
+    {
+      "name": "awesome-claude-code",
+      "archive": "C:/Users/Timlo/Downloads/awesome-claude-code-main.zip",
+      "purpose": "Claude-Code-Ressourcen, Agent-Orchestrierung, Skills, Memory, Testing und Security",
+      "integration": "catalog_only",
+      "note": "Die Liste enthält Empfehlungen und Links, keine geprüften JARVIS-Module."
+    },
+    {
+      "name": "awesome-openclaw-skills",
+      "archive": "C:/Users/Timlo/Downloads/awesome-openclaw-skills-main.zip",
+      "purpose": "Community-Skills für Browser, Coding, Recherche, Produktivität und Integrationen",
+      "integration": "catalog_only",
+      "note": "Skills werden nicht automatisch installiert. Jede externe Skill muss vor Nutzung geprüft werden."
+    }
+  ],
+  "safe_import_policy": {
+    "automatic_install": false,
+    "automatic_external_actions": false,
+    "required_before_activation": [
+      "Quellcode und Lizenz prüfen",
+      "Abhängigkeiten und Netzwerkzugriffe prüfen",
+      "Secrets und Schreibpfade prüfen",
+      "isoliert testen",
+      "erst danach ausdrücklich aktivieren"
+    ]
+  },
+  "mapped_capabilities": {
+    "agent_orchestration": "Planer, Operator und Verifier als getrennte, verifizierte Rollen",
+    "browser_automation": "Playwright mit konkreter Intent-Erkennung statt blindem Suchtext",
+    "desktop_automation": "Allowlist-basierte sichtbare Windows-Aktionen",
+    "memory_context": "Lokales Gedächtnis und begrenzter Gesprächskontext",
+    "security": "Bestätigung für irreversible Aktionen und keine ungeprüfte Fremdcode-Installation",
+    "testing": "Syntax-, Smoke- und Ergebnisprüfung nach Änderungen"
+  }
+}

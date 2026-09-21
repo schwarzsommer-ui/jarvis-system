@@ -1,0 +1,15 @@
+{
+  "type": "execute_shell",
+  "payload": {
+    "command": "whoami"
+  },
+  "context": {
+    "command": "F\u00fchre Shell aus",
+    "auto_confirmed": false,
+    "allowlisted": false,
+    "requires_confirmation": true
+  },
+  "id": "e3192fe1d68e4af0b9085f1caa0a454e",
+  "timestamp": "2026-09-15T01:22:26.045209+00:00",
+  "confirmed": false
+}

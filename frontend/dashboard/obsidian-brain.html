@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>J.A.R.V.I.S. / Obsidian Brain</title>
+<style>
+body{margin:0;background:#071015;color:#d8edf0;font:15px system-ui;padding:32px}main{max-width:980px;margin:auto}h1{font-weight:500}button{padding:10px 14px;background:#72e0df;border:0;cursor:pointer}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel{border:1px solid #274149;background:#0d1b22;padding:18px}.row{display:flex;justify-content:space-between;border-bottom:1px solid #274149;padding:10px 0}.ready{color:#7df0a6}.off{color:#ffba80}pre{white-space:pre-wrap;color:#86a3a8}@media(max-width:700px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main><p>J.A.R.V.I.S. / LOCAL KNOWLEDGE</p><h1>Obsidian Brain</h1><p>Live-Verbindungen von Memory, Agenten, Audit und Obsidian.</p><button id="refresh">Aktualisieren</button><div class="grid"><section class="panel"><h2>Wissensgraph</h2><p id="counts">Lade …</p><pre id="graph"></pre></section><section class="panel"><h2>Verbindungen</h2><div id="connections"></div><h2>Vault</h2><pre id="vault"></pre></section></div></main>
+<script>
+const api="http://127.0.0.1:8787";
+async function load(){const graph=document.querySelector("#graph"),connections=document.querySelector("#connections");try{const r=await fetch(api+"/obsidian/graph");if(!r.ok)throw Error();const d=await r.json();document.querySelector("#counts").textContent=`${d.graph.node_count} Knoten · ${d.graph.edge_count} Verbindungen`;document.querySelector("#vault").textContent=d.obsidian.vault_path||"kein Vault";graph.textContent=(d.graph.nodes||[]).map(n=>`• ${n.label||n.id} (${n.count||1})`).join("\n")||"Noch keine Knoten";connections.innerHTML=Object.entries(d.connections).map(([k,v])=>`<div class="row"><span>${k}</span><b class="${v?"ready":"off"}">${v?"verbunden":"deaktiviert"}</b></div>`).join("")}catch(e){graph.textContent="API nicht erreichbar. Starte start_v2.ps1."}}
+document.querySelector("#refresh").onclick=load;load();
+</script></body></html>

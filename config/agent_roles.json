@@ -1,0 +1,150 @@
+{
+  "roles": {
+    "planner": {
+      "purpose": "Absicht verstehen, Ziel und Schritte bestimmen",
+      "capabilities": ["intent_routing", "task_decomposition", "context_management"],
+      "preferred_nvidia_models": ["nvidia/nemotron-3-super-120b-a12b", "openai/gpt-oss-20b", "google/gemma-4-31b-it"],
+      "skills": ["doc-coauthoring", "discernment-nudge"]
+    },
+    "researcher": {
+      "purpose": "Aktuelle Informationen beschaffen und Quellen trennen",
+      "capabilities": ["web_research", "news", "market_readonly", "source_check"],
+      "preferred_nvidia_models": ["google/gemma-4-31b-it", "openai/gpt-oss-20b", "nvidia/nemotron-3-super-120b-a12b"],
+      "skills": ["pdf", "docx", "xlsx"]
+    },
+    "operator": {
+      "purpose": "Erlaubte sichtbare Browser- und Desktop-Aktionen ausführen",
+      "capabilities": ["browser", "windows_ui", "keyboard", "mouse", "apps"],
+      "preferred_nvidia_models": ["openai/gpt-oss-20b", "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning", "google/gemma-4-31b-it"],
+      "skills": ["webapp-testing"]
+    },
+    "coder": {
+      "purpose": "Code analysieren, schreiben, testen und Reparaturpläne erstellen",
+      "capabilities": ["python", "project_runner", "syntax_check", "tests"],
+      "preferred_nvidia_models": ["google/gemma-4-31b-it", "openai/gpt-oss-20b"],
+      "skills": ["frontend-design", "docx", "pdf", "pptx", "xlsx", "algorithmic-art", "canvas-design"]
+    },
+    "memory": {
+      "purpose": "Ausdrückliche Präferenzen und Auftragskontext speichern",
+      "capabilities": ["long_term_facts", "conversation_context"],
+      "preferred_nvidia_models": ["nvidia/llama-nemotron-embed-vl-1b-v2"],
+      "skills": ["internal-comms", "doc-coauthoring"]
+    },
+    "verifier": {
+      "purpose": "Ergebnisse prüfen und bei Fehlern stoppen",
+      "capabilities": ["result_check", "state_check", "failure_stop"],
+      "preferred_nvidia_models": ["nvidia/nemotron-3-super-120b-a12b", "nvidia/nemotron-3.5-content-safety"],
+      "skills": ["webapp-testing", "pdf", "docx", "pptx", "xlsx", "skill-creator"]
+    },
+    "vision": {
+      "purpose": "Sichtbare Browser- und Desktop-Oberflächen lesen und UI-Ziele erkennen",
+      "capabilities": ["screen_vision", "ocr", "ui_target_detection"],
+      "preferred_nvidia_models": ["nvidia/nemotron-3-nano-omni-30b-a3b-reasoning", "google/gemma-4-31b-it"],
+      "skills": ["webapp-testing", "canvas-design"]
+    },
+    "integrations": {
+      "purpose": "Freigegebene Webhooks, APIs und verbundene Dienste koordinieren",
+      "capabilities": ["make_webhooks", "api_workflows", "integration_status"],
+      "preferred_nvidia_models": ["openai/gpt-oss-20b", "google/gemma-4-31b-it"],
+      "skills": ["internal-comms", "doc-coauthoring"]
+    },
+    "workflow": {
+      "purpose": "Mehrschrittige Aufgaben in überprüfbare Teilaufträge zerlegen und ausführen",
+      "capabilities": ["workflow_planning", "step_execution", "state_tracking"],
+      "preferred_nvidia_models": ["nvidia/nemotron-3-super-120b-a12b", "openai/gpt-oss-20b"],
+      "skills": ["webapp-testing", "doc-coauthoring"]
+    },
+    "monitor": {
+      "purpose": "Lokale Dienste, Dateien und freigegebene Quellen überwachen",
+      "capabilities": ["health_checks", "change_detection", "alerting"],
+      "preferred_nvidia_models": ["google/gemma-4-31b-it", "openai/gpt-oss-20b"],
+      "skills": ["internal-comms"]
+    },
+    "recovery": {
+      "purpose": "Fehlgeschlagene Schritte analysieren und sichere Alternativen vorschlagen",
+      "capabilities": ["retry_planning", "fallback_selection", "failure_analysis"],
+      "preferred_nvidia_models": ["nvidia/nemotron-3-super-120b-a12b", "openai/gpt-oss-20b"],
+      "skills": ["webapp-testing", "skill-creator"]
+    },
+    "security": {
+      "purpose": "Berechtigungen, Risiken und Bestätigungspflichten vor Aktionen prüfen",
+      "capabilities": ["risk_classification", "credential_boundary", "confirmation_gate"],
+      "preferred_nvidia_models": ["nvidia/nemotron-3.5-content-safety", "nvidia/nemotron-3-super-120b-a12b"],
+      "skills": ["webapp-testing", "skill-creator"]
+    },
+    "scheduler": {
+      "purpose": "Zeitpläne und wiederkehrende lokale Aufgaben verwalten",
+      "capabilities": ["scheduling", "reminders", "routine_dispatch"],
+      "preferred_nvidia_models": ["openai/gpt-oss-20b", "google/gemma-4-31b-it"],
+      "skills": ["internal-comms", "doc-coauthoring"]
+    },
+    "documents": {
+      "purpose": "Dokumente, Tabellen, PDFs und Bilder strukturiert verarbeiten",
+      "capabilities": ["pdf", "docx", "xlsx", "ocr", "structured_extraction"],
+      "preferred_nvidia_models": ["google/gemma-4-31b-it", "nvidia/llama-nemotron-embed-vl-1b-v2"],
+      "skills": ["pdf", "docx", "xlsx", "pptx"]
+    },
+    "voice": {
+      "purpose": "Sprachbefehle, Transkription und gesprochene Antworten koordinieren",
+      "capabilities": ["speech_to_text", "text_to_speech", "voice_confirmation"],
+      "preferred_nvidia_models": ["google/gemma-4-31b-it", "openai/gpt-oss-20b"],
+      "skills": ["internal-comms"]
+    },
+    "deployment": {
+      "purpose": "Lokales J.A.R.V.I.S.-Projekt prüfen, testen, starten und reparieren",
+      "capabilities": ["syntax_check", "tests", "logs", "service_control"],
+      "preferred_nvidia_models": ["google/gemma-4-31b-it", "openai/gpt-oss-20b"],
+      "skills": ["skill-creator", "webapp-testing"]
+    },
+    "calendar": {
+      "purpose": "Kalender lesen, Termine planen und bestätigungspflichtige Änderungen vorbereiten",
+      "capabilities": ["calendar", "events", "availability"],
+      "preferred_nvidia_models": ["openai/gpt-oss-20b", "google/gemma-4-31b-it"],
+      "skills": ["internal-comms", "doc-coauthoring"]
+    },
+    "email": {
+      "purpose": "E-Mails lesen, Entwürfe erstellen und Versand sicher vorbereiten",
+      "capabilities": ["email", "drafts", "attachments"],
+      "preferred_nvidia_models": ["openai/gpt-oss-20b", "google/gemma-4-31b-it"],
+      "skills": ["internal-comms", "doc-coauthoring"]
+    },
+    "messaging": {
+      "purpose": "Nachrichten über konfigurierte Kanäle vorbereiten und nach Bestätigung senden",
+      "capabilities": ["telegram", "discord", "slack", "confirmation"],
+      "preferred_nvidia_models": ["openai/gpt-oss-20b"],
+      "skills": ["internal-comms"]
+    },
+    "rag": {
+      "purpose": "Dokumente indizieren, Quellen abrufen und Second-Brain-Antworten belegen",
+      "capabilities": ["retrieval", "indexing", "citations"],
+      "preferred_nvidia_models": ["nvidia/llama-nemotron-embed-vl-1b-v2", "nvidia/nemotron-3-super-120b-a12b"],
+      "skills": ["docx", "pdf", "xlsx"]
+    },
+    "trading": {
+      "purpose": "Marktdaten und Watchlists read-only analysieren, keine eigenständigen Trades",
+      "capabilities": ["market_readonly", "watchlist", "risk_analysis"],
+      "preferred_nvidia_models": ["google/gemma-4-31b-it", "openai/gpt-oss-20b"],
+      "skills": ["xlsx"]
+    },
+    "infrastructure": {
+      "purpose": "Abhängigkeiten, Laufzeit, Dienste und sichere Installationspläne prüfen",
+      "capabilities": ["preflight", "dependencies", "health_checks"],
+      "preferred_nvidia_models": ["google/gemma-4-31b-it", "openai/gpt-oss-20b"],
+      "skills": ["skill-creator", "webapp-testing"]
+    },
+    "media": {
+      "purpose": "Audio, Video und Transkripte analysieren",
+      "capabilities": ["video", "audio", "transcription"],
+      "preferred_nvidia_models": ["google/gemma-4-31b-it", "openai/gpt-oss-20b"],
+      "skills": ["webapp-testing"]
+    }
+  },
+  "protocol": [
+    "planner entscheidet zuerst Absicht und Ziel",
+    "researcher wird nur für aktuelle Daten verwendet",
+    "operator führt nur erlaubte sichtbare Aktionen aus",
+    "coder arbeitet nur im freigegebenen Workspace",
+    "verifier bestätigt jeden Schritt",
+    "irreversible Aktionen benötigen eine unmittelbare Bestätigung"
+  ]
+}

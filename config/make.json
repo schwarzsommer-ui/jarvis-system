@@ -1,0 +1,26 @@
+{
+  "enabled": true,
+  "webhookEnv": "MAKE_WEBHOOK_URL",
+  "webhookUrl": "",
+  "requiresConfirmation": true,
+  "payloads": {
+    "telegramAlert": {
+      "event": "telegram.alert",
+      "message": "{{message}}",
+      "severity": "{{severity}}",
+      "source": "jarvis"
+    },
+    "monitoringEvent": {
+      "event": "monitoring.signal",
+      "symbol": "{{symbol}}",
+      "value": "{{value}}",
+      "timestamp": "{{timestamp}}"
+    },
+    "dashboardUpdate": {
+      "event": "dashboard.update",
+      "panel": "{{panel}}",
+      "data": "{{data}}",
+      "timestamp": "{{timestamp}}"
+    }
+  }
+}

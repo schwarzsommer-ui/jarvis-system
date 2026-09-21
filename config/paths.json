@@ -1,0 +1,6 @@
+{
+  "base": ".",
+  "logs": "logs",
+  "memory": "memory",
+  "executor_queue": "executor/queue"
+}

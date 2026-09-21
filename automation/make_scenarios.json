@@ -1,0 +1,39 @@
+{
+  "scenarios": [
+    {
+      "name": "RSS -> Gemini -> Telegram",
+      "purpose": "Neue Feed-Artikel filtern, zusammenfassen und nur wichtige Ereignisse melden.",
+      "trigger": "RSS Watch RSS feed items",
+      "steps": [
+        "RSS-Feeds aus feeds/default_feeds.json überwachen",
+        "Duplikate entfernen",
+        "Gemini mit Jarvis-Systemprompt analysieren lassen",
+        "Nur hohe Priorität an Telegram senden",
+        "Zusammenfassung in reports/ speichern"
+      ],
+      "required_env": [
+        "MAKE_WEBHOOK_URL",
+        "GEMINI_API_KEY",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID"
+      ]
+    },
+    {
+      "name": "Gmail -> Gemini -> Entwurf",
+      "purpose": "E-Mails klassifizieren und Antwortentwürfe erstellen, ohne automatisch zu senden.",
+      "trigger": "Gmail Watch emails",
+      "steps": [
+        "E-Mail abrufen",
+        "Gemini nach Priorität und Kategorie klassifizieren lassen",
+        "Antwortentwurf erstellen",
+        "Entwurf in Gmail speichern",
+        "Bei hoher Priorität Telegram-Alarm senden"
+      ],
+      "required_env": [
+        "GEMINI_API_KEY",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID"
+      ]
+    }
+  ]
+}

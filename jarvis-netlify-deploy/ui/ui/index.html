@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="J.A.R.V.I.S. V3/V4 - sicherer Engineering- und Monitoring-Agent">
+    <title>J.A.R.V.I.S. | Command Center</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">J.A.R.V.I.S. / VERSION 2</p>
+          <h1>Project Agent</h1>
+        </div>
+        <span class="status"><i></i> ONLINE</span>
+      </header>
+
+      <section class="hero">
+        <div id="orb" class="orb" aria-hidden="true"><span>J</span></div>
+        <div>
+          <p class="eyebrow">COMMAND CENTER</p>
+          <h2>Was soll ich für dich planen?</h2>
+          <p class="intro">Ich zerlege Programmier-, Automations- und Deployment-Ideen in sichere Umsetzungsschritte, erwartete Diffs und Prüfungen. Aktionen werden erst nach ausdrücklicher Bestätigung ausgeführt.</p>
+        </div>
+      </section>
+
+      <section class="dashboard" aria-label="System-Dashboard">
+        <article class="metric"><span>AGENT</span><strong id="agent-status">BEREIT</strong><small>Planung & Analyse</small></article>
+        <article class="metric"><span>TOOLS</span><strong>SAFE MODE</strong><small>Bestätigung erforderlich</small></article>
+        <article class="metric"><span>MARKETS</span><strong>SCENARIOS</strong><small>Keine Anlageberatung</small></article>
+        <article class="metric"><span>VOICE</span><strong id="voice-status">BEREIT</strong><small>Browser-Unterstützung</small></article>
+      </section>
+
+      <section class="workspace" aria-label="Jarvis Anfrage">
+        <form id="agent-form">
+          <label for="message">Deine Anfrage</label>
+          <select id="provider" name="provider" aria-label="KI-Provider">
+            <option value="claude">Claude Sonnet</option>
+            <option value="gemini">Gemini Flash</option>
+            <option value="gpt">GPT-4o mini</option>
+            <option value="nim">NVIDIA NIM</option>
+          </select>
+          <select id="task" name="task" aria-label="Aufgabentyp">
+            <option value="default">Projektaufgabe</option>
+            <option value="monitoring">Monitoring</option>
+            <option value="alert">Alert</option>
+            <option value="dashboard">Dashboard</option>
+          </select>
+          <select id="mode" name="mode" aria-label="Arbeitsmodus">
+            <option value="plan">Gesamtplan erstellen</option>
+            <option value="code">Code-Aufgabe planen</option>
+            <option value="debug">Fehler analysieren</option>
+          </select>
+          <textarea id="message" name="message" rows="6" maxlength="12000" required placeholder="Zum Beispiel: Plane eine V2, in der Jarvis ein Python-Projekt analysiert und testet."></textarea>
+          <div class="form-footer">
+            <span id="counter">0 / 12000</span>
+            <div class="controls">
+              <button type="button" id="voice-button" class="secondary">Mikrofon</button>
+              <label class="toggle"><input id="speak-toggle" type="checkbox"> Vorlesen</label>
+              <button type="submit" id="ask-button">Jarvis fragen <span aria-hidden="true">↗</span></button>
+            </div>
+          </div>
+        </form>
+
+        <article class="response-panel" aria-live="polite">
+          <div class="panel-heading">
+            <span>ANTWORT</span>
+            <span id="state">BEREIT</span>
+          </div>
+          <p id="reply" class="placeholder">Deine Antwort erscheint hier.</p>
+          <section id="plan-details" class="plan-details" hidden>
+            <div><strong>Schritte</strong><ul id="steps"></ul></div>
+            <div><strong>Dateien / Diff</strong><ul id="files"></ul></div>
+            <div><strong>Tests</strong><ul id="tests"></ul></div>
+            <div><strong>Risiken</strong><ul id="risks"></ul></div>
+          </section>
+          <div id="action-summary" class="action-summary" hidden>
+            <strong>Sicherheitsstatus</strong>
+            <span>Plan erstellt. Ausführung erfordert eine separate Bestätigung.</span>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <span>V2 · Safe Project Command Center</span>
+        <span>Claude Sonnet · Netlify Functions</span>
+      </footer>
+    </main>
+
+    <!-- V3: Make.com, Telegram und Markt-Feeds werden hinter bestätigten Webhooks ergänzt. -->
+    <!-- V4: Three.js lädt die Orb-Animation als progressive Enhancement; CSS bleibt Fallback. -->
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

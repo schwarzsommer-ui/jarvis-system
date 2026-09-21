@@ -1,0 +1,37 @@
+{
+  "policy": {
+    "max_specialists_per_request": 16,
+    "max_depth": 1,
+    "must_have_verifier": true,
+    "allow_bounded_hiring": true,
+    "adaptive_hiring": true,
+    "max_dynamic_agents": 48,
+    "no_self_installation": true,
+    "no_unbounded_spawning": true
+  },
+  "specialists": [
+    {"id": "web-research", "owner": "researcher", "capabilities": ["search", "sources", "page_reading"]},
+    {"id": "browser-operator", "owner": "operator", "capabilities": ["navigate", "click", "fill", "scroll"]},
+    {"id": "desktop-operator", "owner": "operator", "capabilities": ["windows", "apps", "screenshots"]},
+    {"id": "code-builder", "owner": "coder", "capabilities": ["edit", "test", "debug"]},
+    {"id": "memory-curator", "owner": "memory", "capabilities": ["remember", "recall", "routines"]},
+    {"id": "safety-verifier", "owner": "verifier", "capabilities": ["verify", "stop", "audit"]},
+    {"id": "vision-inspector", "owner": "vision", "capabilities": ["screen", "ocr", "ui-targets"]},
+    {"id": "integration-coordinator", "owner": "integrations", "capabilities": ["webhooks", "apis", "services"]},
+    {"id": "workflow-composer", "owner": "workflow", "capabilities": ["sequences", "state", "verification"]},
+    {"id": "monitoring-sentinel", "owner": "monitor", "capabilities": ["health", "changes", "alerts"]},
+    {"id": "recovery-planner", "owner": "recovery", "capabilities": ["retry", "fallback", "diagnostics"]},
+    {"id": "permission-guard", "owner": "security", "capabilities": ["risk", "permissions", "confirmation"]},
+    {"id": "schedule-coordinator", "owner": "scheduler", "capabilities": ["schedules", "reminders", "routines"]},
+    {"id": "document-specialist", "owner": "documents", "capabilities": ["pdf", "docx", "xlsx", "ocr"]},
+    {"id": "voice-coordinator", "owner": "voice", "capabilities": ["speech", "tts", "voice-confirmation"]},
+    {"id": "deployment-engineer", "owner": "deployment", "capabilities": ["syntax", "tests", "logs", "service-control"]},
+    {"id": "calendar-coordinator", "owner": "calendar", "capabilities": ["events", "availability", "reminders"]},
+    {"id": "email-coordinator", "owner": "email", "capabilities": ["drafts", "attachments", "send-with-confirmation"]},
+    {"id": "messaging-coordinator", "owner": "messaging", "capabilities": ["telegram", "discord", "slack", "send-with-confirmation"]},
+    {"id": "rag-retriever", "owner": "rag", "capabilities": ["indexing", "retrieval", "citations", "evaluation"]},
+    {"id": "market-analyst", "owner": "trading", "capabilities": ["watchlists", "readonly-market-data", "risk-scenarios"]},
+    {"id": "dependency-engineer", "owner": "infrastructure", "capabilities": ["preflight", "install-plan", "health-check"]},
+    {"id": "media-analyst", "owner": "media", "capabilities": ["transcription", "video-analysis", "audio-analysis"]}
+  ]
+}

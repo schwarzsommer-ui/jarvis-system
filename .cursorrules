@@ -1,0 +1,28 @@
+# J.A.R.V.I.S. project rules
+
+## Scope
+- Work only inside this project unless the user explicitly requests a specific external path.
+- Preserve the existing Python, FastAPI, frontend, and Windows automation architecture.
+- Keep credentials, API keys, cookies, and tokens in `.env`; never print or commit them.
+
+## Verification
+- Never claim that an app, page, file, or action succeeded without a tool response or visible UI/CDP/UI-Automation verification.
+- Report the actual error when an action cannot be verified.
+- For multi-step commands, execute and verify each step in order and stop at the first failed step.
+- Prefer existing connected TradingView/Edge sessions over opening duplicate browser windows.
+
+## Desktop actions
+- Use the existing bounded desktop executor, UI Automation, and TradingView controller.
+- Do not enable unrestricted shell execution, arbitrary downloads, registry changes, broad process termination, or hidden persistence.
+- Installing a dependency requires a named package, a clear project need, and a verification step.
+- Keep screenshots/OCR explicit and user-requested; use accessibility/UI context as the default observation path.
+
+## Financial and external actions
+- Market research and Paper Trading preparation are allowed.
+- Never submit real-money trades, send messages/emails, delete data, shut down/restart the system, or change account settings without explicit confirmation immediately before the irreversible action.
+- Treat financial information as scenarios and analysis, not investment advice.
+
+## Code quality
+- Make surgical changes, reuse existing helpers, and run the smallest relevant syntax check or test.
+- Do not add fake/demo success values or silently swallow errors.
+- Keep the safe-mode behavior and audit logging intact.

@@ -1,0 +1,29 @@
+{
+  "enabled": true,
+  "pollSeconds": 60,
+  "financialAdvice": false,
+  "sources": {
+    "forex": { "enabled": false, "symbols": ["EURUSD", "GBPUSD"], "thresholds": {} },
+    "xauusd": { "enabled": false, "symbols": ["XAUUSD"], "thresholds": {} },
+    "crypto": { "enabled": false, "symbols": ["BTCUSD", "ETHUSD"], "thresholds": {} },
+    "news": {
+      "enabled": true,
+      "feeds": [
+        "https://www.tagesschau.de/xml/rss2",
+        "https://feeds.bbci.co.uk/news/world/rss.xml",
+        "https://www.coindesk.com/arc/outboundfeeds/rss/"
+      ],
+      "keywords": []
+    }
+  },
+  "triggerEvents": [
+    { "name": "price_threshold", "enabled": false, "requiresConfirmation": true },
+    { "name": "news_keyword", "enabled": false, "requiresConfirmation": true },
+    { "name": "service_down", "enabled": false, "requiresConfirmation": false }
+  ],
+  "makeCalls": {
+    "enabled": false,
+    "webhookEnv": "MAKE_WEBHOOK_URL",
+    "requiresConfirmation": true
+  }
+}

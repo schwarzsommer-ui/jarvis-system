@@ -1,0 +1,23 @@
+{
+  "type": "send_message",
+  "payload": {
+    "target": "telegram"
+  },
+  "context": {
+    "command": "send test",
+    "auto_confirmed": false,
+    "allowlisted": false,
+    "permission_granted": false,
+    "requires_confirmation": true,
+    "safety": {
+      "safe": false,
+      "blocked": true,
+      "action_type": "send_message",
+      "reason": "dangerous_action_requires_explicit_review"
+    }
+  },
+  "id": "9543081e0527476b80788f03a92f597a",
+  "timestamp": "2026-09-18T07:42:32.699486+00:00",
+  "confirmed": false,
+  "status": "pending"
+}

@@ -1,0 +1,30 @@
+{
+  "ai": {
+    "provider": "nim",
+    "model": "meta/llama-3.1-8b-instruct",
+    "fallback_provider": "ollama",
+    "api_key_env": "NIM_API_KEY",
+    "api_url": "https://integrate.api.nvidia.com/v1/chat/completions",
+    "model_env": "NIM_MODEL"
+  },
+  "automation": {
+    "provider": "make",
+    "dashboard": "https://www.make.com",
+    "webhook_url_env": "MAKE_WEBHOOK_URL"
+  },
+  "overlay": {
+    "provider": "netlify",
+    "dashboard": "https://app.netlify.com",
+    "site_url_env": "NETLIFY_SITE_URL"
+  },
+  "notifications": {
+    "telegram_bot_token_env": "TELEGRAM_BOT_TOKEN",
+    "telegram_chat_id_env": "TELEGRAM_CHAT_ID",
+    "email_enabled": false
+  },
+  "security": {
+    "never_store_secrets_in_repository": true,
+    "require_explicit_confirmation_for_email_sending": true,
+    "financial_advice": false
+  }
+}

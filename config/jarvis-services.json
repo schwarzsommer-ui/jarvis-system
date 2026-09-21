@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "policy": {
+    "safeMode": true,
+    "requireExplicitConfirmation": true,
+    "financialAdvice": false
+  },
+  "services": {
+    "make": {
+      "enabled": false,
+      "secretEnv": "MAKE_WEBHOOK_URL",
+      "purpose": "Approved automation scenarios"
+    },
+    "telegram": {
+      "enabled": false,
+      "secretEnv": "TELEGRAM_BOT_TOKEN",
+      "purpose": "Approved notifications"
+    },
+    "marketData": {
+      "enabled": false,
+      "secretEnv": "MARKET_DATA_API_KEY",
+      "purpose": "Scenario data for FX, XAUUSD and crypto"
+    },
+    "deploy": {
+      "enabled": false,
+      "secretEnv": "DEPLOY_HOOK_URL",
+      "purpose": "Approved deployment requests"
+    }
+  }
+}

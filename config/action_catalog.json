@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "description": "Zentrale Übersicht der lokal verfügbaren J.A.R.V.I.S.-Aktionen.",
+  "policy": {
+    "safe_actions_run_directly": true,
+    "input_actions_require_confirmation": true,
+    "destructive_or_external_actions_require_confirmation": true,
+    "unknown_actions_are_rejected": true
+  },
+  "categories": [
+    {
+      "id": "conversation_memory",
+      "name": "Gespräch und Second Brain",
+      "actions": ["chat", "memory.search", "memory.save", "learning.train", "learning.graph"]
+    },
+    {
+      "id": "desktop",
+      "name": "Windows und Desktop",
+      "actions": [
+        "open_application", "open_file", "open_folder", "list_files",
+        "active_context", "detect_active_window_title", "list_windows",
+        "system_status", "capture_screen", "focus_window", "ui_inspect",
+        "ui_click_visible_text", "ui_fill_visible_field", "ui_run_app_flow"
+      ]
+    },
+    {
+      "id": "browser",
+      "name": "Browser und Recherche",
+      "actions": [
+        "open_url", "search_web", "browser_search_and_open", "browser_navigate",
+        "browser_get_text", "browser_snapshot", "browser_click",
+        "browser_fill", "browser_scroll", "browser_execute_flow",
+        "browser_execute_steps", "browser_submit", "youtube_video_analysis"
+      ]
+    },
+    {
+      "id": "files_and_data",
+      "name": "Dateien und Daten",
+      "actions": [
+        "create_folder", "move_path", "delete_path", "ocr_image",
+        "read_clipboard", "write_clipboard", "python.calculate",
+        "python.analyze_data", "python.transform_text"
+      ]
+    },
+    {
+      "id": "orchestration",
+      "name": "Planung und Agenten",
+      "actions": [
+        "plan", "plan.execute", "orchestrate", "execute_multi_agent",
+        "execute_local_workflow", "execute_task_queue", "verify_result",
+        "agent.route", "agent.hire_subagent", "agent.auto_hire",
+        "agent.release_subagents", "agent.inspect_capability_gap",
+        "obsidian.status", "obsidian.sync", "audit.recent",
+        "scheduler.list", "scheduler.enable"
+      ]
+    },
+    {
+      "id": "input",
+      "name": "Tastatur und Maus",
+      "actions": ["click", "type_text", "press_key", "hotkey", "mouse_move", "mouse_scroll"]
+    }
+  ]
+}

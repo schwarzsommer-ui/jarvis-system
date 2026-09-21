@@ -1,0 +1,22 @@
+{
+  "type": "file.delete",
+  "payload": {
+    "path": "x"
+  },
+  "context": {
+    "command": "Delete file",
+    "auto_confirmed": false,
+    "allowlisted": false,
+    "requires_confirmation": true,
+    "safety": {
+      "safe": false,
+      "blocked": true,
+      "action_type": "file.delete",
+      "reason": "dangerous_action_requires_explicit_review"
+    }
+  },
+  "id": "a3e50dadc2f041168c8c8ec7971d8233",
+  "timestamp": "2026-09-15T01:33:34.740455+00:00",
+  "confirmed": false,
+  "status": "pending"
+}

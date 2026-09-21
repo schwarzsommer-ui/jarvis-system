@@ -1,0 +1,24 @@
+{
+  "type": "send_email",
+  "payload": {
+    "command": "Send email",
+    "type": "send_email",
+    "payload": {}
+  },
+  "context": {
+    "command": "Send email",
+    "auto_confirmed": false,
+    "allowlisted": false,
+    "requires_confirmation": true,
+    "safety": {
+      "safe": false,
+      "blocked": true,
+      "action_type": "send_email",
+      "reason": "dangerous_action_requires_explicit_review"
+    }
+  },
+  "id": "363c65de36564168b0e1b9ce9428963f",
+  "timestamp": "2026-09-15T01:28:33.076688+00:00",
+  "confirmed": false,
+  "status": "pending"
+}

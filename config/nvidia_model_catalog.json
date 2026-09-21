@@ -1,0 +1,60 @@
+{
+  "source": "https://build.nvidia.com/models?orderBy=weightPopular%3ADESC",
+  "catalog_size": 99,
+  "routing_policy": {
+    "chat": [
+      "nvidia/nemotron-3-super-120b-a12b",
+      "openai/gpt-oss-20b",
+      "google/gemma-4-31b-it"
+    ],
+    "vision": [
+      "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning",
+      "meta/llama-3.2-90b-vision-instruct",
+      "meta/llama-3.2-11b-vision-instruct"
+    ],
+    "retrieval": [
+      "nvidia/llama-nemotron-embed-vl-1b-v2",
+      "nvidia/llama-nemotron-rerank-vl-1b-v2"
+    ],
+    "ocr": [
+      "nvidia/nemotron-ocr-v2",
+      "nvidia/nemotron-parse"
+    ],
+    "safety": [
+      "nvidia/nemotron-3.5-content-safety",
+      "meta/llama-guard-4-12b",
+      "nvidia/llama-3.1-nemotron-safety-guard-8b-v3",
+      "nvidia/llama-3.1-nemoguard-8b-content-safety",
+      "nvidia/llama-3.1-nemoguard-8b-topic-control"
+    ],
+    "translation": [
+      "nvidia/riva-translate-4b-instruct-v1_1"
+    ]
+  },
+  "visible_models": [
+    {"id": "nvidia/nemotron-3-super-120b-a12b", "class": "reasoning", "free_endpoint": true},
+    {"id": "nvidia/nemotron-3-ultra-550b-a55b", "class": "reasoning", "free_endpoint": true},
+    {"id": "openai/gpt-oss-20b", "class": "text_reasoning", "free_endpoint": true},
+    {"id": "nvidia/llama-nemotron-embed-vl-1b-v2", "class": "retrieval", "free_endpoint": false},
+    {"id": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning", "class": "vision_audio_video", "free_endpoint": true},
+    {"id": "google/gemma-4-31b-it", "class": "coding_reasoning", "free_endpoint": true},
+    {"id": "meta/llama-3.2-90b-vision-instruct", "class": "vision", "free_endpoint": true},
+    {"id": "google/diffusiongemma-26b-a4b-it", "class": "diffusion_text", "free_endpoint": true},
+    {"id": "meta/llama-3.2-11b-vision-instruct", "class": "vision", "free_endpoint": true},
+    {"id": "nvidia/nemotron-3.5-content-safety", "class": "safety", "free_endpoint": true},
+    {"id": "nvidia/llama-nemotron-rerank-vl-1b-v2", "class": "retrieval", "free_endpoint": true},
+    {"id": "nvidia/nemotron-parse", "class": "document_parsing", "free_endpoint": true},
+    {"id": "mistralai/mistral-nemotron", "class": "text_reasoning", "free_endpoint": true},
+    {"id": "nvidia/llama-3.1-nemoguard-8b-topic-control", "class": "safety", "free_endpoint": true},
+    {"id": "nvidia/ising-calibration-1-35b-a3b", "class": "specialized", "free_endpoint": true},
+    {"id": "nvidia/evo2-40b-forward", "class": "biology", "free_endpoint": true},
+    {"id": "meta/llama-guard-4-12b", "class": "safety", "free_endpoint": true},
+    {"id": "nvidia/llama-3.1-nemotron-safety-guard-8b-v3", "class": "safety", "free_endpoint": true},
+    {"id": "nvidia/riva-translate-4b-instruct-v1_1", "class": "translation", "free_endpoint": true},
+    {"id": "nvidia/llama-3.1-nemoguard-8b-content-safety", "class": "safety", "free_endpoint": true},
+    {"id": "nvidia/nemotron-ocr-v2", "class": "ocr", "free_endpoint": true},
+    {"id": "black-forest-labs/flux.2-klein-4b", "class": "image_generation", "free_endpoint": true},
+    {"id": "nvidia/boltz-2", "class": "molecule_structure", "free_endpoint": true},
+    {"id": "nvidia/synthetic-video-detector", "class": "video_detection", "free_endpoint": true}
+  ]
+}

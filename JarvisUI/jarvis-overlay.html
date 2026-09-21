@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS // Global Monitor</title>
+<style>
+  :root{
+    --bg-0:#0D1117;
+    --bg-1:#141B22;
+    --panel:#182029;
+    --line:#28323C;
+    --text:#C9D4DC;
+    --text-dim:#6B7684;
+    --teal:#5FC9B8;
+    --amber:#E0A458;
+    --red:#D9704F;
+    --mono: 'IBM Plex Mono', 'SF Mono', ui-monospace, monospace;
+    --sans: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background: radial-gradient(circle at 20% 0%, #16202A 0%, var(--bg-0) 55%);
+    color:var(--text);
+    font-family:var(--sans);
+    min-height:100vh;
+  }
+  a{color:var(--teal); text-decoration:none;}
+
+  .frame{
+    max-width:1180px;
+    margin:0 auto;
+    padding:28px 20px 60px;
+  }
+
+  header.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    border-bottom:1px solid var(--line);
+    padding-bottom:18px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  header.top .id{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-dim);
+    letter-spacing:.02em;
+  }
+  header.top h1{
+    font-size:28px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  header.top h1 span{color:var(--teal); font-weight:400;}
+  .clock{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-dim);
+    text-align:right;
+  }
+  .clock .live-dot{
+    display:inline-block; width:6px; height:6px; border-radius:50%;
+    background:var(--teal); margin-right:6px;
+    box-shadow:0 0 8px var(--teal);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+  .status-strip{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    margin-bottom:28px;
+    font-family:var(--mono);
+  }
+  .status-cell{
+    background:var(--bg-1);
+    padding:14px 16px;
+  }
+  .status-cell .label{font-size:11px; color:var(--text-dim); letter-spacing:.03em;}
+  .status-cell .value{font-size:17px; margin-top:4px;}
+  .status-cell .value.ok{color:var(--teal);}
+  .status-cell .value.warn{color:var(--amber);}
+
+  .grid{
+    display:grid;
+    grid-template-columns: 2fr 1fr;
+    gap:20px;
+  }
+  @media (max-width: 860px){
+    .grid{grid-template-columns:1fr;}
+    .status-strip{grid-template-columns:repeat(2,1fr);}
+  }
+
+  section.panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:20px 22px;
+    margin-bottom:20px;
+  }
+  section.panel > h2{
+    font-size:14px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  section.panel > h2 .num{
+    font-family:var(--mono);
+    color:var(--text-dim);
+    font-size:12px;
+  }
+
+  .entry{
+    border-left:2px solid var(--line);
+    padding:8px 0 8px 14px;
+    margin-bottom:10px;
+  }
+  .entry:last-child{margin-bottom:0;}
+  .entry.crit{border-left-color:var(--red);}
+  .entry.watch{border-left-color:var(--amber);}
+  .entry .meta{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--text-dim);
+    margin-bottom:3px;
+  }
+  .entry .body{font-size:14px; line-height:1.5;}
+
+  .scenario-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:10px;
+    margin-top:6px;
+  }
+  .scenario{
+    border:1px solid var(--line);
+    padding:10px 12px;
+    font-size:13px;
+  }
+  .scenario .tag{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.04em;
+    color:var(--text-dim);
+    margin-bottom:6px;
+  }
+  .scenario.bull .tag{color:var(--teal);}
+  .scenario.bear .tag{color:var(--red);}
+
+  .tag-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag-pill{
+    font-family:var(--mono);
+    font-size:12px;
+    border:1px solid var(--line);
+    padding:4px 9px;
+    color:var(--text-dim);
+  }
+
+  .risk-line{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:13px; padding:7px 0; border-bottom:1px solid var(--line);
+  }
+  .risk-line:last-child{border-bottom:none;}
+  .bar{width:70px; height:5px; background:var(--line); position:relative;}
+  .bar span{position:absolute; top:0; left:0; height:100%; background:var(--amber);}
+
+  .next-steps li{
+    font-size:13px; margin-bottom:8px; padding-left:14px; position:relative;
+    color:var(--text);
+  }
+  .next-steps li::before{
+    content:"→"; position:absolute; left:0; color:var(--teal); font-family:var(--mono);
+  }
+
+  footer{
+    margin-top:20px;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--text-dim);
+    display:flex;
+    justify-content:space-between;
+    border-top:1px solid var(--line);
+    padding-top:14px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .config-note{
+    font-size:12px;
+    color:var(--text-dim);
+    background:var(--bg-1);
+    border:1px dashed var(--line);
+    padding:10px 12px;
+    margin-bottom:22px;
+  }
+  .config-note code{color:var(--teal); font-family:var(--mono);}
+
+  .skill-line{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:13px; padding:7px 0; border-bottom:1px solid var(--line);
+  }
+  .skill-line:last-child{border-bottom:none;}
+  .skill-dot{width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:8px;}
+  .skill-dot.ok{background:var(--teal); box-shadow:0 0 6px var(--teal);}
+  .skill-dot.off{background:var(--text-dim);}
+  .skill-status-text{font-family:var(--mono); font-size:11px; color:var(--text-dim);}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <header class="top">
+    <div>
+      <div class="id">JARVIS // GLOBAL MONITOR</div>
+      <h1>System<span>overlay</span></h1>
+    </div>
+    <div style="text-align:right;">
+      <div class="clock" id="clock"><span class="live-dot"></span><span id="clockText">--:--:--</span></div>
+      <a href="jarvis-brain-map.html" style="font-family:var(--mono); font-size:11px; display:inline-block; margin-top:6px;">← Zur Systemkarte</a>
+    </div>
+  </header>
+
+  <div class="config-note" id="configNote">
+    Noch keine Live-Quelle verbunden — zeigt Demo-Daten. Trage deine Make.com-Webhook-URL im Skript unten ein:
+    <code>const WEBHOOK_URL = "https://hook.eu1.make.com/DEINE_ID";</code>
+  </div>
+
+  <div class="status-strip" id="statusStrip"></div>
+
+  <div class="grid">
+    <div>
+      <section class="panel">
+        <h2><span class="num">01</span> Globale Lage</h2>
+        <div id="globalEvents"></div>
+      </section>
+
+      <section class="panel">
+        <h2><span class="num">02</span> Politische Ereignisse</h2>
+        <div id="politicalEvents"></div>
+      </section>
+
+      <section class="panel">
+        <h2><span class="num">03</span> Krypto- & Trading-Struktur</h2>
+        <div id="tradingStructure"></div>
+        <div class="scenario-row" id="scenarioRow"></div>
+      </section>
+    </div>
+
+    <div>
+      <section class="panel">
+        <h2><span class="num">04</span> Risiken</h2>
+        <div id="riskList"></div>
+      </section>
+
+      <section class="panel">
+        <h2><span class="num">05</span> Relevante Personen</h2>
+        <div class="tag-list" id="personTags"></div>
+      </section>
+
+      <section class="panel">
+        <h2><span class="num">06</span> Nächste Schritte</h2>
+        <ul class="next-steps" id="nextSteps"></ul>
+      </section>
+
+      <section class="panel">
+        <h2><span class="num">07</span> Skills-Status (HAND)</h2>
+        <div id="skillsStatus"></div>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <span id="lastUpdate">Letztes Update: —</span>
+    <span>Quelle: <span id="sourceLabel">Demo-Daten</span></span>
+  </footer>
+
+</div>
+
+<script>
+// ====== KONFIGURATION ======
+// Trage hier deine Make.com Custom-Webhook-URL ein, die JSON im untenstehenden
+// Format zurückgibt. Leer lassen = Demo-Daten.
+const WEBHOOK_URL = ""; // z.B. "https://hook.eu1.make.com/xxxxxxxx"
+const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // alle 5 Minuten
+const CONFIG_URL = "config.json"; // gleiche Konfiguration wie die Systemkarte
+
+// Erwartetes JSON-Format vom Webhook:
+// {
+//   status: [{label, value, ok:true/false}, ...],
+//   global: [{time, tag, text, level:"info"|"watch"|"crit"}, ...],
+//   political: [...same shape...],
+//   trading: [{time, tag, text, level}, ...],
+//   scenarios: [{type:"bull"|"neutral"|"bear", text}, ...],
+//   risks: [{label, level:0-100}, ...],
+//   persons: ["Name 1","Name 2", ...],
+//   nextSteps: ["...", "..."],
+//   skills: {"Make.com":true, "E-Mail-Agent":false, ...}   // optional, key = Skill-Name aus config.json
+// }
+
+const DEMO_DATA = {
+  status: [
+    {label:"MONITORING", value:"AKTIV", ok:true},
+    {label:"QUELLEN VERBUNDEN", value:"0 / RSS", ok:false},
+    {label:"LETZTER SCAN", value:"—", ok:true},
+    {label:"MODUS", value:"DEMO", ok:false},
+  ],
+  global: [
+    {time:"—", tag:"INFO", text:"Noch keine Live-Feeds verbunden. Sobald das Make.com-Szenario läuft, erscheinen hier reale Ereignisse aus deinen RSS-Quellen.", level:"info"},
+  ],
+  political: [
+    {time:"—", tag:"INFO", text:"Politische Ereignisse werden hier nach Relevanzfilter (Personen, Institutionen, Entscheidungen) einsortiert.", level:"info"},
+  ],
+  trading: [
+    {time:"—", tag:"INFO", text:"Marktstruktur-Analyse (BOS / CHoCH / OB / FVG) erscheint hier, sobald Kursdaten oder Analyse-Feeds angebunden sind.", level:"info"},
+  ],
+  scenarios: [
+    {type:"bull", text:"Kein Live-Szenario — Beispieltext für bullische Einordnung."},
+    {type:"neutral", text:"Kein Live-Szenario — Beispieltext für neutrale Einordnung."},
+    {type:"bear", text:"Kein Live-Szenario — Beispieltext für bärische Einordnung."},
+  ],
+  risks: [
+    {label:"Datenlücke (keine Live-Quelle)", level:80},
+    {label:"Makro-Unsicherheit", level:40},
+  ],
+  persons: ["— keine Live-Daten —"],
+  nextSteps: [
+    "Make.com-Webhook-URL im Overlay-Skript eintragen",
+    "Mindestens 2–3 RSS-Quellen im Szenario verbinden",
+    "Telegram-Bot für kritische Alerts einrichten",
+  ],
+  skills: {}, // z.B. {"Make.com": true} sobald dein Webhook das liefert
+};
+
+function fmtTime(){
+  const d = new Date();
+  return d.toLocaleTimeString('de-DE');
+}
+
+let HAND_SKILLS = [];
+async function loadSkillList(){
+  try{
+    const res = await fetch(CONFIG_URL, {cache:"no-store"});
+    const cfg = await res.json();
+    const hand = cfg.categories.find(c => c.key === "hand");
+    HAND_SKILLS = hand ? hand.subs.map(s => s.label) : [];
+  }catch(err){
+    console.warn("config.json nicht gefunden für Skills-Status:", err);
+    HAND_SKILLS = ["Make.com", "E-Mail-Agent"];
+  }
+}
+
+function renderSkills(skillStatusMap){
+  const map = skillStatusMap || {};
+  document.getElementById('skillsStatus').innerHTML = HAND_SKILLS.map(name => {
+    const active = map[name] === true;
+    return `
+    <div class="skill-line">
+      <span><span class="skill-dot ${active ? 'ok' : 'off'}"></span>${name}</span>
+      <span class="skill-status-text">${active ? 'AKTIV' : 'NICHT VERBUNDEN'}</span>
+    </div>`;
+  }).join('');
+}
+
+function render(data){
+  const strip = document.getElementById('statusStrip');
+  strip.innerHTML = data.status.map(s => `
+    <div class="status-cell">
+      <div class="label">${s.label}</div>
+      <div class="value ${s.ok ? 'ok' : 'warn'}">${s.value}</div>
+    </div>`).join('');
+
+  const renderEntries = (list) => list.map(e => `
+    <div class="entry ${e.level === 'crit' ? 'crit' : e.level === 'watch' ? 'watch' : ''}">
+      <div class="meta">${e.time || ''} · ${e.tag || ''}</div>
+      <div class="body">${e.text}</div>
+    </div>`).join('');
+
+  document.getElementById('globalEvents').innerHTML = renderEntries(data.global);
+  document.getElementById('politicalEvents').innerHTML = renderEntries(data.political);
+  document.getElementById('tradingStructure').innerHTML = renderEntries(data.trading);
+
+  document.getElementById('scenarioRow').innerHTML = data.scenarios.map(s => `
+    <div class="scenario ${s.type}">
+      <div class="tag">${s.type.toUpperCase()}</div>
+      ${s.text}
+    </div>`).join('');
+
+  document.getElementById('riskList').innerHTML = data.risks.map(r => `
+    <div class="risk-line">
+      <span>${r.label}</span>
+      <span class="bar"><span style="width:${r.level}%"></span></span>
+    </div>`).join('');
+
+  document.getElementById('personTags').innerHTML = data.persons.map(p =>
+    `<span class="tag-pill">${p}</span>`).join('');
+
+  document.getElementById('nextSteps').innerHTML = data.nextSteps.map(s =>
+    `<li>${s}</li>`).join('');
+
+  document.getElementById('lastUpdate').textContent = "Letztes Update: " + fmtTime();
+
+  renderSkills(data.skills);
+}
+
+async function loadData(){
+  if(!WEBHOOK_URL){
+    render(DEMO_DATA);
+    document.getElementById('sourceLabel').textContent = "Demo-Daten";
+    return;
+  }
+  try{
+    const res = await fetch(WEBHOOK_URL);
+    const json = await res.json();
+    render(json);
+    document.getElementById('sourceLabel').textContent = "Live (Make.com)";
+    document.getElementById('configNote').style.display = "none";
+  }catch(err){
+    console.error("Webhook-Fehler:", err);
+    render(DEMO_DATA);
+    document.getElementById('sourceLabel').textContent = "Fehler — Demo-Daten";
+  }
+}
+
+function tickClock(){
+  document.getElementById('clockText').textContent = fmtTime();
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+loadSkillList().then(loadData);
+setInterval(loadData, REFRESH_INTERVAL_MS);
+</script>
+</body>
+</html>

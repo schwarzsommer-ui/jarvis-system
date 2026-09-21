@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>J.A.R.V.I.S. · Arbeitsfenster</title>
+    <link rel="stylesheet" href="workspace.css">
+  </head>
+  <body>
+    <main class="workspace-shell" id="workspace">
+      <header><span class="brand"><i></i> J.A.R.V.I.S.</span><span id="live-state">CONNECTING</span></header>
+      <section class="workspace-hero">
+        <div class="visual" id="visual"><div class="planet"></div><div class="scan-ring"></div><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div></div>
+        <div><p class="kicker" id="mode-label">LIVE WORKSPACE</p><h1 id="title">Arbeitsfenster wird vorbereitet</h1><p id="subtitle">Jarvis sammelt die relevanten Informationen.</p></div>
+      </section>
+      <section class="workspace-grid">
+        <article class="data-panel"><div class="panel-title">JARVIS RESPONSE <span id="provider"></span></div><p id="response" aria-live="polite">Warte auf die Antwort ...</p></article>
+        <article class="data-panel"><div class="panel-title">LIVE SIGNALS</div><ul id="signals"><li>Neural channel geöffnet</li><li>Datenquellen werden verbunden</li><li>Animation synchronisiert</li></ul></article>
+      </section>
+      <footer><span>DESKTOP COMMAND WORKSPACE</span><span>Fenster kann geschlossen werden</span></footer>
+    </main>
+    <script type="module" src="workspace.js"></script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "feeds": [
+    {
+      "name": "Reuters World",
+      "url": "https://feeds.reuters.com/reuters/topNews",
+      "category": "global"
+    },
+    {
+      "name": "BBC World",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "category": "global"
+    },
+    {
+      "name": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "category": "macro"
+    },
+    {
+      "name": "CoinDesk",
+      "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+      "category": "crypto"
+    },
+    {
+      "name": "Cointelegraph",
+      "url": "https://cointelegraph.com/rss",
+      "category": "crypto"
+    }
+  ],
+  "poll_interval_minutes": 60,
+  "priority_keywords": [
+    "president",
+    "election",
+    "central bank",
+    "interest rate",
+    "bitcoin",
+    "ethereum",
+    "regulation",
+    "war",
+    "sanctions",
+    "market"
+  ]
+}

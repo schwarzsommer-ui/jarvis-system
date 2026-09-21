@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "refreshSeconds": 60,
+  "panels": {
+    "forex": { "enabled": false, "symbols": ["EURUSD", "GBPUSD"], "dataSource": "MARKET_DATA_API_URL" },
+    "xauusd": { "enabled": false, "symbols": ["XAUUSD"], "dataSource": "MARKET_DATA_API_URL" },
+    "crypto": { "enabled": false, "symbols": ["BTCUSD", "ETHUSD"], "dataSource": "MARKET_DATA_API_URL" },
+    "news": { "enabled": false, "feeds": [], "dataSource": "NEWS_API_URL" },
+    "alerts": { "enabled": false, "source": "MAKE_WEBHOOK_URL" },
+    "systemStatus": { "enabled": true, "source": "/.netlify/functions/health" }
+  }
+}

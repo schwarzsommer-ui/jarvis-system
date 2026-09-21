@@ -1,0 +1,6 @@
+# Optional local desktop layer. Multi-agent packages are installed separately
+# by setup_jarvis.ps1 to avoid an unnecessarily deep combined pip resolution.
+pyautogui>=0.9.54
+keyboard>=0.13.5
+Pillow>=10.0
+python-dotenv>=1.0

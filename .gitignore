@@ -1,0 +1,58 @@
+# Local Netlify folder
+.netlify
+.jarvis
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+credentials/
+secrets/
+
+# Python environments and caches
+.venv/
+.venv-*/
+venv/
+venv-*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# JavaScript dependencies and build output
+node_modules/
+.next/
+out/
+dist/
+build/
+.vercel/
+coverage/
+
+# Local runtime state, logs, exports, and browser profiles
+Logs/
+logs/
+data/
+screenshots/
+browser-data/
+playwright/.cache/
+*.log
+*.sqlite
+*.sqlite3
+*.db
+.claw/
+.claude/skills/
+Obsidian/
+SecondBrain/
+*.zip
+jarvis_memory.json
+
+# Vendored/generated repositories
+vendor/
+
+# Downloaded local voice models
+models/voices/

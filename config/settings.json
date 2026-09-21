@@ -1,0 +1,6 @@
+{
+  "backend_host": "127.0.0.1",
+  "backend_port": 8787,
+  "safe_mode": true,
+  "live_events": true
+}

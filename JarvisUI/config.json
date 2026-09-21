@@ -1,0 +1,64 @@
+{
+  "center": {
+    "label": "GEHIRN",
+    "desc": "Zentrale Analyse-Instanz (Claude). Verarbeitet alle eingehenden Signale, erstellt Zusammenfassungen, Szenarien und Einordnungen."
+  },
+  "categories": [
+    {
+      "key": "wissen",
+      "label": "WISSEN",
+      "angle": -90,
+      "desc": "News, RSS-Feeds, Markt- und Makro-Daten. Rohmaterial für die Analyse.",
+      "subs": [
+        { "label": "RSS-Feeds", "desc": "Mehrere Quellen, per Make.com überwacht und gefiltert." },
+        { "label": "Krypto-Daten", "desc": "Marktstruktur, Orderflow, Liquiditätszonen." }
+      ]
+    },
+    {
+      "key": "dashboard",
+      "label": "DASHBOARD",
+      "angle": -18,
+      "desc": "Das Live-Overlay auf Netlify — zeigt alle Analysen in Echtzeit.",
+      "link": true,
+      "subs": [
+        { "label": "Netlify-Overlay", "desc": "Live-Ansicht: Systemstatus, Szenarien, Risiken.", "link": true },
+        { "label": "Live-Status", "desc": "Zeigt an, welche Quellen aktuell verbunden sind." }
+      ]
+    },
+    {
+      "key": "hand",
+      "label": "HAND",
+      "angle": 54,
+      "desc": "Automationen und Skills, die etwas tun — E-Mails sortieren, Entwürfe erstellen, Inhalte posten, Aktionen auslösen.",
+      "subs": [
+        { "label": "Make.com", "desc": "Orchestriert alle Automationen und Webhooks." },
+        { "label": "E-Mail-Agent", "desc": "Sortiert, filtert und entwirft E-Mail-Antworten." },
+        { "label": "Kalender-Sync", "desc": "Termine erkennen, eintragen, erinnern." },
+        { "label": "Content-Automation", "desc": "Entwürfe für Social-Media-Posts (Instagram/LinkedIn/X) vorbereiten." },
+        { "label": "Skript-Ausführung", "desc": "Eigene Skripte/Tools über Webhooks anstoßen." },
+        { "label": "Datei-Automation", "desc": "Dateien ablegen, umbenennen, sortieren (z.B. via Drive)." },
+        { "label": "Web-Automation", "desc": "Webseiten/Apps automatisch öffnen oder abfragen." }
+      ]
+    },
+    {
+      "key": "archiv",
+      "label": "ARCHIV",
+      "angle": 126,
+      "desc": "Gedächtnis des Systems — gespeicherte Präferenzen, Strategien, Verlauf.",
+      "subs": [
+        { "label": "Präferenzen", "desc": "Deine Interessen, Prioritäten und Regeln." },
+        { "label": "Logbuch", "desc": "Verlauf vergangener Analysen und Entscheidungen." }
+      ]
+    },
+    {
+      "key": "stimme",
+      "label": "STIMME",
+      "angle": 198,
+      "desc": "Wie das System mit dir kommuniziert — Alerts und Nachrichten.",
+      "subs": [
+        { "label": "Telegram-Bot", "desc": "Sofort-Alerts bei kritischen Ereignissen." },
+        { "label": "Voice-Alerts", "desc": "Optional: gesprochene Kurzmeldungen." }
+      ]
+    }
+  ]
+}
